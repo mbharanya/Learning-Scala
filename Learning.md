@@ -106,12 +106,64 @@ zipped.unzip
 // (List(a, b, c),List(1, 2, 3))
 ```
 
+### Folding
 foldLeft `/:`  
-foldRight `:\`
-
 structure: `(startValue /: list) (binaryOperation)`  
-`(z /: List(a, b, c)) (op) equals op(op(op(z, a), b), c)`
+`(z /: List(a, b, c)) (op)` equals `op(op(op(z, a), b), c)`
+```
+       op
+      /  \
+     op   c
+    / \
+   op   b
+  / \  
+ z   a
+```
+That's why `/:` is used
 
+Examples:
+```scala
+ ("" /: words) (_ +" "+ _)
+ // => the quick brown fox
+ (words.head /: words.tail)  (_ +" "+ _)
+  // => the quick brown fox
+```
+
+foldRight `:\`  
+_It involves the same three operands as fold left, but the first two appear in reversed order: The first operand is the list to fold, the second is the start value._
+
+https://alvinalexander.com/scala/how-to-walk-scala-collections-reduceleft-foldright-cookbook
+
+_The foldLeft method works just like reduceLeft, but it lets you set a seed value to be used for the first element_
+```scala
+scala> val a = Array(1, 2, 3)
+a: Array[Int] = Array(1, 2, 3)
+
+scala> a.reduceLeft(_ + _)
+res0: Int = 6
+
+scala> a.foldLeft(20)(_ + _)
+res1: Int = 26
+
+scala> a.foldLeft(100)(_ + _)
+res2: Int = 106
+
+List(1, 3, 8).foldLeft(100)(_ - _) == ((100 - 1) - 3) - 8 == 88
+List(1, 3, 8).foldRight(100)(_ - _) == 1 - (3 - (8 - 100)) == -94
+```
+
+Sorting
+```scala
+scala> List(1, -3, 4, 2, 6) sortWith (_ < _)
+res51: List[Int] = List(-3, 1, 2, 4, 6)
+```
+
+Methods on the `scala.List` companion object:
+`List.tabulate` 
+```scala
+scala> val squares = List.tabulate(5)(n => n * n)
+        squares: List[Int] = List(0, 1, 4, 9, 16)
+```
 
 # Misc
 - [`lazy val`](https://stackoverflow.com/questions/7484928/what-does-a-lazy-val-do)
