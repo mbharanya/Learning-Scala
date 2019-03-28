@@ -165,6 +165,60 @@ scala> val squares = List.tabulate(5)(n => n * n)
         squares: List[Int] = List(0, 1, 4, 9, 16)
 ```
 
+# Collections
+ListBuffer for appending to lists.  
+_You append elements with the += operator, and prepend them with the +=: operator._
+
+Sorted sets and maps  
+Objects must implement `Ordered` trait
+```scala
+ scala> val ts = TreeSet(9, 3, 1, 8, 0, 2, 7, 4, 6, 5)
+  ts: scala.collection.immutable.TreeSet[Int]
+    = TreeSet(0, 1, 2, 3, 4, 5, 6, 7, 8, 9)
+scala> var tm = TreeMap(3 -> 'x', 1 -> 'x', 4 -> 'x')
+  tm: scala.collection.immutable.TreeMap[Int,Char]
+    = Map(1 -> x, 3 -> x, 4 -> x)
+```
+
+# Stateful Objects
+Even though immutable sets and maps do not support a true += method, Scala gives a useful alternate interpretation to +=. Whenever you write a += b, and a does not support a method named +=, Scala will try interpreting it as a = a + b.
+
+```scala
+scala> val people = Set("Nancy", "Jane")
+  people: scala.collection.immutable.Set[java.lang.String] =
+    Set(Nancy, Jane)
+scala> people += "Bob"
+<console>:11: error: reassignment to val
+        people += "Bob"
+```
+
+Setters are called with `_=`.  
+_The getter of a var x is just named “x”, while its setter is named “x_=”._
+
+# Type Parameterization
+
+Example of a purely functional Queue. It never mutates any state and instead returns a new Queue everytime.  
+To achieve constant time for all 3 operations (appending to a list must first traverse all elements because `A :: B :: C == A :: (B :: C)` , this `mirror` method is created.
+
+```scala
+class Queue[T](
+    private val leading: List[T],
+    private val trailing: List[T]
+){
+private def mirror =
+      if (leading.isEmpty)
+        new Queue(trailing.reverse, Nil)
+else this
+    def head = mirror.leading.head
+    def tail = {
+      val q = mirror
+      new Queue(q.leading.tail, q.trailing)
+}
+    def enqueue(x: T) =
+      new Queue(leading, x :: trailing)
+}
+```
+
 # Misc
 - [`lazy val`](https://stackoverflow.com/questions/7484928/what-does-a-lazy-val-do)
 Interesting can see how it works, use cases not very clear to me.
@@ -177,3 +231,7 @@ Interesting can see how it works, use cases not very clear to me.
   // calculate the sum of all the numbers passed to the method
   def sum(args: Int*): Int = args.fold(0)(_+_)
   ```
+
+- `AnyRef` represents reference types. All non-value types are defined as reference types. Every user-defined type in Scala is a subtype of `AnyRef`. If Scala is used in the context of a Java runtime environment, `AnyRef` corresponds to `java.lang.Object`.
+
+- `require` throws `IllegalArgumentException` and `assert` throws `AssertionError`.
