@@ -219,6 +219,26 @@ else this
 }
 ```
 
+## Information hiding
+Private constructors: 
+```scala
+class Queue[T] private (
+    private val leading: List[T],
+    private val trailing: List[T]
+)
+```
+
+generic traits are traits that take type parameters  
+_you can demand covariant (flexible) subtyping of queues by chang- ing the first line of the definition of class Queue like this:_
+```scala
+trait Queue[+T] { ... }
+```
+
+_Besides +, there is also a prefix -, which indicates contravariant subtyping. If Queue were defined like this:_
+```scala
+trait Queue[-T] { ... }
+```
+
 # Misc
 - [`lazy val`](https://stackoverflow.com/questions/7484928/what-does-a-lazy-val-do)
 Interesting can see how it works, use cases not very clear to me.
@@ -235,3 +255,9 @@ Interesting can see how it works, use cases not very clear to me.
 - `AnyRef` represents reference types. All non-value types are defined as reference types. Every user-defined type in Scala is a subtype of `AnyRef`. If Scala is used in the context of a Java runtime environment, `AnyRef` corresponds to `java.lang.Object`.
 
 - `require` throws `IllegalArgumentException` and `assert` throws `AssertionError`.
+
+- Currying  
+_Methods may define multiple parameter lists. When a method is called with a fewer number of parameter lists, then this will yield a function taking the missing parameter lists as its arguments._
+
+- 1. A Functor is a structure with a map function.
+  2. A Monad is a structure with a flatMap function.
