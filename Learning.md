@@ -228,7 +228,15 @@ class Queue[T] private (
 )
 ```
 
+## Variance
 generic traits are traits that take type parameters  
+
+```scala
+class Foo[+A] // A covariant class
+class Bar[-A] // A contravariant class
+class Baz[A]  // An invariant class
+```
+
 _you can demand covariant (flexible) subtyping of queues by chang- ing the first line of the definition of class Queue like this:_
 ```scala
 trait Queue[+T] { ... }
@@ -238,6 +246,85 @@ _Besides +, there is also a prefix -, which indicates contravariant subtyping. I
 ```scala
 trait Queue[-T] { ... }
 ```
+_Scala treats arrays as nonvariant (rigid), so an Array[String] is not considered to conform to an Array[Any]_
+
+Example:
+```scala
+abstract class Animal {
+  def name: String
+}
+case class Cat(name: String) extends Animal
+case class Dog(name: String) extends Animal
+```
+
+`sealed abstract class List[+A]` class, where the type parameter `A` is covariant. This means that a `List[Cat]` is a `List[Animal]` and a `List[Dog]` is also a `List[Animal]`.
+
+```scala
+List[Cat] == List[Animal]
+List[Dog] == List[Animal]
+```
+```scala
+object CovarianceTest extends App {
+  def printAnimalNames(animals: List[Animal]): Unit = {
+    animals.foreach { animal =>
+      println(animal.name)
+    }
+  }
+
+  val cats: List[Cat] = List(Cat("Whiskers"), Cat("Tom"))
+  val dogs: List[Dog] = List(Dog("Fido"), Dog("Rex"))
+
+  printAnimalNames(cats)
+  // Whiskers
+  // Tom
+
+  printAnimalNames(dogs)
+  // Fido
+  // Rex
+}
+```
+### Contravariance
+`class Writer[-A], //A contravariant`  
+Writer[B] is a subtype of Writer[A]
+
+to remember: [-A] == [something extends A]
+
+```scala
+abstract class Printer[-A] {
+  def print(value: A): Unit
+}
+
+class AnimalPrinter extends Printer[Animal] {
+  def print(animal: Animal): Unit =
+    println("The animal's name is: " + animal.name)
+}
+
+class CatPrinter extends Printer[Cat] {
+  def print(cat: Cat): Unit =
+    println("The cat's name is: " + cat.name)
+}
+
+object ContravarianceTest extends App {
+  val myCat: Cat = Cat("Boots")
+
+  def printMyCat(printer: Printer[Cat]): Unit = {
+    printer.print(myCat)
+  }
+
+  val catPrinter: Printer[Cat] = new CatPrinter
+  val animalPrinter: Printer[Animal] = new AnimalPrinter
+
+  printMyCat(catPrinter)
+  printMyCat(animalPrinter)
+}
+// output: 
+// The cat's name is: Boots
+// The animal's name is: Boots
+```
+
+### Invariance
+_Generic classes in Scala are invariant by default_
+
 
 # Misc
 - [`lazy val`](https://stackoverflow.com/questions/7484928/what-does-a-lazy-val-do)
