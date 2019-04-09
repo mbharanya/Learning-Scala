@@ -325,6 +325,36 @@ object ContravarianceTest extends App {
 ### Invariance
 _Generic classes in Scala are invariant by default_
 
+## Lower bounds
+```scala
+def enqueue[U >: T](x: U) =
+```
+_defines T as the lower bound for default_ --> T extends U
+
+```scala
+// object private
+private[this]
+```
+
+Note: Reviewing Variance might be useful, when needed
+
+# Abstract Members
+```scala
+trait Abstract {
+  type T
+  def transform(x: T): T
+  val initial: T
+  var current: T
+}
+
+class Concrete extends Abstract {
+  type T = String
+  def transform(x: String) = x + x
+  val initial = "hi"
+  var current = initial
+}
+```
+
 
 # Misc
 - [`lazy val`](https://stackoverflow.com/questions/7484928/what-does-a-lazy-val-do)
