@@ -195,6 +195,8 @@ scala> people += "Bob"
 Setters are called with `_=`.  
 _The getter of a var x is just named “x”, while its setter is named “x_=”._
 
+--> every var gets these setters by default
+
 # Type Parameterization
 
 Example of a purely functional Queue. It never mutates any state and instead returns a new Queue everytime.  
@@ -355,10 +357,107 @@ class Concrete extends Abstract {
 }
 ```
 
+```scala
+// Abstract val
+val initial: String
+// Abstract method
+def initial: String
+```
+
+It's ok to override a `def` with a `val`, but not the other way around
+Why? It's because a `val` will always return the same value (constant), this is not the same for a `def`
+
+A trait with abstract vals is a bit analogous to the an abstract class constructor.
+
+```scala
+trait RationalTrait {
+    val numerArg: Int
+    val denomArg: Int
+}
+
+// anonymous class that mixes in the trait
+new RationalTrait {
+    val numerArg = 1
+    val denomArg = 2
+}
+```
+For traits the value is initalized after it's instantiation - compared to classes where the constructor is executed at the time of the creation.
+You can pre-initalize it:
+```scala
+scala> new {
+          val numerArg = 1 * x
+          val denomArg = 2 * x
+        } with RationalTrait
+res1: java.lang.Object with RationalTrait = 1/2
+
+object twoThirds extends {
+    val numerArg = 2
+    val denomArg = 3
+} with RationalTrait
+```
+_Because pre-initialized fields are initialized before the superclass constructor is called, their initializers cannot refer to the object that’s being constructed. Consequently, if such an initializer refers to this, the reference goes to the object containing the class or object that’s being constructed, not the constructed object itself_
+
+```scala
+scala> object Demo {
+           val x = { println("initializing x"); "done" }
+}
+  defined module Demo
+
+scala> Demo
+  initializing x
+  res3: Demo.type = Demo$@17469af
+scala> Demo.x
+  res4: java.lang.String = done
+```
+the computation is done during instantiation in this example
+
+[`lazy val`](https://stackoverflow.com/questions/7484928/what-does-a-lazy-val-do) only computed after first accessed - then stored in memory
+
+```scala
+class Food
+abstract class Animal {
+  def eat(food: Food)
+}
+class Grass extends Food
+class Cow extends Animal {
+  override def eat(food: Grass) {} // This won’t compile,
+}                                  // but if it did,...
+class Fish extends Food
+val bessy: Animal = new Cow
+bessy eat (new Fish)     // ...you could feed fish to cows.
+
+// instead declare an upper bound Type
+// <: -> Upper bound
+class Food
+abstract class Animal {
+  type SuitableFood <: Food
+  def eat(food: SuitableFood)
+}
+
+// Declare what a suitable food is for the Cow Class (path-dependent type)
+class Grass extends Food
+class Cow extends Animal {
+  type SuitableFood = Grass
+  override def eat(food: Grass) {}
+}
+```
+
+```scala
+scala> class Fish extends Food
+defined class Fish
+
+scala> val bessy: Animal = new Cow
+bessy: Animal = Cow@2e3919
+
+scala> bessy eat (new Fish)
+<console>:12: error: type mismatch;
+  found   : Fish
+  required: bessy.SuitableFood
+        bessy eat (new Fish)
+                  ˆ
+```
 
 # Misc
-- [`lazy val`](https://stackoverflow.com/questions/7484928/what-does-a-lazy-val-do)
-Interesting can see how it works, use cases not very clear to me.
 
 - Is the `Any` type dangerous? Seems like bad practice to use it - ever
 
