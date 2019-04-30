@@ -457,6 +457,71 @@ scala> bessy eat (new Fish)
                   ˆ
 ```
 
+## Structural subtyping
+class inherits from another -> _nominal_ subtype  
+class has the same methods as another -> _structual_ (_refinement_ in scala) subtype
+
+nominal are preferred to structurals usually. 
+
+```scala
+ class Pasture {
+    // specify member type definition of inside this animal
+    var animals: List[Animal { type SuitableFood = Grass }] = Nil
+    // ...
+}
+
+def using[T, S](obj: T)(operation: T => S) = {
+    val result = operation(obj)
+    obj.close()  // type error!
+    result
+}
+
+// define an upper bound for T to have a close() method 
+def using[T <: { def close(): Unit }, S](obj: T)
+      (operation: T => S) = {
+    val result = operation(obj)
+    obj.close()
+    result
+}
+```
+
+## Enums
+```scala
+object Color extends Enumeration {
+  val Red = Value
+  val Green = Value
+  val Blue = Value
+}
+
+// or 
+
+object Color extends Enumeration {
+  val Red, Green, Blue = Value
+}
+```
+`Enumeration` exposes the type `Value`  
+_Value is the type of all enumeration values defined in object Color_
+
+```scala
+// adding values
+object Direction extends Enumeration {
+  val North = Value("North")
+  val East = Value("East")
+  val South = Value("South")
+  val West = Value("West")
+}
+// iterating
+scala> for (d <- Direction.values) print(d +" ")
+        North East South West
+
+// it also has an id (start from 0)
+scala> Direction.East.id
+        res14: Int = 1
+
+scala> Direction(1)
+        res15: Direction.Value = East
+```
+
 # Misc
 
 - Is the `Any` type dangerous? Seems like bad practice to use it - ever
