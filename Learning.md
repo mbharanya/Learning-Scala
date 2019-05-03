@@ -2,7 +2,7 @@
 My notes for the "official" book about scala. Peppered with comments and some resources from [the scala cookbook](http://scalacookbook.com/)
 
 # Pattern matching
-It's just like switch case!
+It's just like switch case (but much much more powerful)!
 
 _This means you always have to make sure that all cases are covered, even if it means adding a default case where there’s nothing to do_
 
