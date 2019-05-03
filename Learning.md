@@ -88,6 +88,7 @@ Reverse it if necessary
 ```scala
 val abcde = List('a', 'b', 'c', 'd', 'e')
 ```
+
 | Function      | Example                                        |
 | ------------- |------------------------------------------------|
 | `.init`       | abcde.init == `List(a, b, c, d)`               |
