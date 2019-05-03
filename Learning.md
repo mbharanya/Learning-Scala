@@ -1,3 +1,6 @@
+# Martin Odersky, Lex Spoon, Bill Venners Programming in Scala A Comprehensive Step-by-Step Guide, 2nd Edition 2011
+My notes for the "official" book about scala. Peppered with comments and some resources from [the scala cookbook](http://scalacookbook.com/)
+
 # Pattern matching
 It's just like switch case!
 
