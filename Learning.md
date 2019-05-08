@@ -527,7 +527,63 @@ scala> Direction(1)
 ```
 
 # Implicit Conversions and Parameters
+Swing example:
+```scala
+// java way
+val button = new JButton
+  button.addActionListener(
+    new ActionListener {
+      def actionPerformed(event: ActionEvent) {
+        println("pressed!")
+      }
+} )
 
+// scala way by passing a function
+button.addActionListener( // Type mismatch!
+    (_: ActionEvent) => println("pressed!")
+)
+
+// --> this needs to be defined - so that it works
+// takes a function returns ActionListener
+implicit def function2ActionListener(f: ActionEvent => Unit) =
+  new ActionListener {
+    def actionPerformed(event: ActionEvent) = f(event)
+  }
+
+// can be called directly like this:
+button.addActionListener(
+    function2ActionListener(
+      (_: ActionEvent) => println("pressed!")
+    )
+)
+
+// Because it is implicit it nows to call the method:
+button.addActionListener(
+    (_: ActionEvent) => println("pressed!")
+)
+```
+
+Rules:
+- The compiler searches for implicit methods if a type error would occur
+- The implicit must be in scope as a single identifier, or be associated with the source or target type of the conversion
+- For sanity’s sake, the compiler does not insert further implicit conversions when it is already in the middle of trying another implicit.
+
+Implicits are great for DSLs, the compiler will search matching methods in the implicits even if they're not defined on the type you're accessing
+
+They are everywhere. Example from `scala.Predef`:
+```scala
+package scala
+  object Predef {
+    class ArrowAssoc[A](x: A) {
+      def -> [B](y: B): Tuple2[A, B] = Tuple2(x, y)
+    }
+    implicit def any2ArrowAssoc[A](x: A): ArrowAssoc[A] =
+      new ArrowAssoc(x)
+    ...
+}
+// enables:
+Map(1 -> "one", 2 -> "two", 3 -> "three")
+```
 
 # Misc
 
