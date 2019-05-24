@@ -583,7 +583,15 @@ package scala
 }
 // enables:
 Map(1 -> "one", 2 -> "two", 3 -> "three")
+
+//  -> is a rich wrapper
 ```
+Parameter lists can also be satisfied by Implicits, just the types need to match
+
+_Note that when you use implicit on a parameter, then not only will the compiler try to supply that parameter with an implicit value, but the compiler will also use that parameter as an available implicit in the body of the method_ 
+
+# Implementing Lists
+
 
 # Misc
 
