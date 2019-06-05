@@ -590,7 +590,35 @@ Parameter lists can also be satisfied by Implicits, just the types need to match
 
 _Note that when you use implicit on a parameter, then not only will the compiler try to supply that parameter with an implicit value, but the compiler will also use that parameter as an available implicit in the body of the method_ 
 
-# Implementing Lists
+# More `for`
+```scala
+// find all Mothers with their children
+val lara = Person("Lara", false)
+val bob = Person("Bob", true)
+val julie = Person("Julie", false, lara, bob)
+val persons = List(lara, bob, julie)
+
+persons withFilter (p => !p.isMale) flatMap (p =>
+             (p.children map (c => (p.name, c.name))))
+// res1: List[(String, String)] = List((Julie,Lara),
+//      (Julie,Bob))
+
+// with a `for`
+for (p <- persons; if !p.isMale; c <- p.children)
+         yield (p.name, c.name)
+// res2: List[(String, String)] = List((Julie,Lara),
+//      (Julie,Bob))
+```
+
+`for ( seq ) yield expr`
+_Here, seq is a sequence of generators, definitions, and filters, with semi- colons between successive element_
+```scala
+for {
+    p <- persons // a generator
+    n = p.name // a definition
+    if (n startsWith "To") // a filter
+} yield n
+```
 
 
 # Misc
