@@ -620,6 +620,34 @@ for {
 } yield n
 ```
 
+# Concurrency
+Scala's alternative to the locking concurrency of Java is called actors, which is share-nothing, message-passing based.
+The actors library is deprecated in favor of akka.
+
+# Extractors
+_An extractor in Scala is an object that has a method called unapply as one of
+its members. The purpose of that unapply method is to match a value and take it apart_  
+
+_the unapply takes an object and tries to give back the arguments_ 
+
+```scala
+// inherit from scala function type
+object EMail extends ((String, String) => String) {
+  // The injection method (optional)
+  def apply(user: String, domain: String) = user +"@"+ domain
+  // The extraction method (mandatory)
+  def unapply(str: String): Option[(String, String)] = {
+    val parts = str split "@"
+    if (parts.length == 2) Some(parts(0), parts(1)) else None
+  } 
+}
+```
+
+```scala
+selectorString match { case EMail(user, domain) => ... }
+// would lead to the call:
+EMail.unapply(selectorString)
+```
 
 # Misc
 
