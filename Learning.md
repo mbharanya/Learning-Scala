@@ -669,3 +669,7 @@ _Methods may define multiple parameter lists. When a method is called with a few
 
 - 1. A Functor is a structure with a map function.
   2. A Monad is a structure with a flatMap function.
+
+
+- `case object`  
+  is a singleton, no constructor, can be used for pattern matching
