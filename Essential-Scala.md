@@ -70,3 +70,85 @@ This is a tail call because it immediately returns the value.
 This instead needs to first execute method1 and then add something to it.
 _Scala only optimises tail calls where the caller calls itself_
 You can manually add `@tailrec` to a method to optimize it.
+
+## Placeholder syntax
+```scala
+_+_         // expands to `(a,b)=>a+b` 
+foo(_)      // expands to `(a) => foo(a)`
+foo(_, b)   // expands to `(a) => foo(a, b)`
+_(foo)      // expands to `(a) => a(foo)` 
+// and so on...
+```
+
+convert method calls to functions 
+```scala
+object Sum {
+  def sum(x: Int, y: Int) = x + y
+}
+Sum.sum
+// <console>:9: error: missing arguments for method sum in object Sum;
+// follow this method with `_' if you want to treat it as a partially applied function // Sum.sum
+// ^
+(Sum.sum _)
+// res: (Int, Int) => Int = <function2>
+```
+
+# Collections
+## Ranges
+```scala
+10 until 1 by -1
+```
+Like a for loop in java
+
+# Type Class Instances
+```scala
+implicit val ordering = Ordering.fromLessThan[Int](_ < _) scala> List(2, 4, 3).sorted
+// res: List[Int] = List(2, 3, 4)
+List(1, 7 ,5).sorted
+// res: List[Int] = List(1, 5, 7)
+```
+Ordering is implicitly passed to the sorted method.
+
+## Type Class Pattern
+_A type class is a trait with at least one type variable. The type variables specify the concrete types the type class instances are defined for. Methods in the trait usually use the type variables._
+```scala
+trait ExampleTypeClass[A] {
+  def doSomething(in: A): Foo
+}
+```
+
+## Implicit Parameter Lists
+```scala
+object HtmlUtil {
+def htmlify[A](data: A)(implicit writer: HtmlWriter[A]): String = {
+    writer.write(data)
+  }
+}
+```
+This takes the data to convert to HTML, as well as an implicit parameter of the writer to use. 
+```scala
+HtmlUtil.htmlify(Person("John", "john@example.com"))(PersonWriter)
+// res: String = <span>John &lt;john@example.com&gt;</span>
+```
+
+If you define an implicit value it will find it: 
+```scala
+implicit object ApproximationWriter extends HtmlWriter[Int] { def write(in: Int): String =
+s"It's definitely less than ${((in / 10) + 1) * 10}" }
+
+
+// result
+HtmlUtil.htmlify(2)
+// res: String = It's definitely less than 10
+```
+
+Even better: 
+```scala
+object HtmlWriter {
+  def apply[A](implicit writer: HtmlWriter[A]): HtmlWriter[A] =
+    writer 
+}
+// used like this:
+                // hidden `.apply`
+HtmlWriter[Person].write(Person("Noel", "noel@example.org"))
+```
