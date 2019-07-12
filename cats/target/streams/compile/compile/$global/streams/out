@@ -1,9 +1,0 @@
-[0m[[0m[0mdebug[0m] [0m[0mAcquiring lock on file /Users/milan/Documents/scala/cats/project/target/.sbt-compilation-infos/cats-compile/.sbt-idea-lock ...[0m
-[0m[[0m[31merror[0m] [0m[0m/Users/milan/Documents/scala/cats/src/main/scala/show.scala:5:1: expected class or object definition[0m
-[0m[[0m[31merror[0m] [0m[0mval showInt: Show[Int] = Show.apply[Int][0m
-[0m[[0m[31merror[0m] [0m[0m^[0m
-[0m[[0m[31merror[0m] [0m[0m/Users/milan/Documents/scala/cats/src/main/scala/show.scala:6:1: expected class or object definition[0m
-[0m[[0m[31merror[0m] [0m[0mval showString: Show[String] = Show.apply[String][0m
-[0m[[0m[31merror[0m] [0m[0m^[0m
-[0m[[0m[31merror[0m] [0m[0mtwo errors found[0m
-[0m[[0m[0mdebug[0m] [0m[0mReleasing lock on file /Users/milan/Documents/scala/cats/project/target/.sbt-compilation-infos/cats-compile/.sbt-idea-lock.[0m
