@@ -184,19 +184,21 @@ ProductLens.productId.set(productId) andThen ProductLens.pricingTables.modify(_.
 ```
 We need to use implicitly because we want the reversed one.
 
-das sortiert üsig pricing tables reversed.
+das sortiert üsig pricing tables reversed.  
 Es bruucht e implicit implementation vom `Ordering` trait für `Long`
-`implicit object Long extends LongOrdering`
-s LongOrdering wird im scope importiert
-sortBy erwartet es implicit ordering als 2. parameter list
+`implicit object Long extends LongOrdering`  
+s LongOrdering wird im scope importiert 
+sortBy erwartet es implicit ordering als 2. parameter list  
 I dem spezifische mues es nume uf dä wäg spezifiziere, wöu du's no reversed wotsch.
 Süsch isch LongOrdering automatisch dür scala.Math im Scope
 wenns nid wettisch reverse sortiere:
 
-```ProductLens.pricingTables.modify(_.sortBy(_.moq))```
+```scala
+ProductLens.pricingTables.modify(_.sortBy(_.moq))
+```
 
 dr compiler gseht, dass dr 2. parameter für sortBy fehlt, also goht er im scope go luege obs nöime e implicit value het wo zum type passt (`Ordering[Long]`)
-wenners findet wird das implicitly a sortBy übergeh
+wenners findet wird das implicitly a sortBy übergeh  
 jetz wei mer aber das stüüre, drum `implicitly` und denn chasch es anders specifye
 wenn das nid hettisch müesstisch dini eigeti implementation vo Ordering[Long] mache
 

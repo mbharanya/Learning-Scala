@@ -76,3 +76,78 @@ Monoid[String].combine("Hi ", "there")
 Monoid[String].empty
 // res1: String = ""
 ```
+
+The combine method is also accessible as `|+|`
+```scala
+import cats.instances.string._ // for Monoid
+import cats.syntax.semigroup._ // for |+|
+val stringResult = "Hi " |+| "there" |+| Monoid[String].empty 
+// stringResult: String = Hi there
+import cats.instances.int._ // for Monoid
+val intResult = 1 |+| 2 |+| Monoid[Int].empty
+// intResult: Int = 3
+```
+
+# Functors
+_Informally, a functor is anything with a map method._
+single argument functions are also functors
+function composition is sequencing
+```scala
+val func =
+  ((x: Int) => x.toDouble).
+    map(x => x + 1).
+    map(x => x * 2).
+    map(x => x + "!")
+func(123)
+// res10: String = 248.0!
+```
+Calling `map` doesn't actually execute the code, it just chains the operations together. Only after supplying an argument to the generated function it gets executed.
+_We can think of this as lazily queueing up operatins similar to Future_
+
+_Formally, a functor is a type `F[A]` with an operation `map` with type `(A => B) => F[B]`_
+
+Functors in Cats: 
+```scala
+package cats
+import scala.language.higherKinds
+trait Functor[F[_]] {
+  def map[A, B](fa: F[A])(f: A => B): F[B]
+}
+```
+
+Functors Laws:
+Identity: calling map with the identity function is the same as doing nothing:
+```scala
+ fa.map(a => a) == fa
+```
+Composition: mapping with two functions f and g is the same as mapping with f and then mapping with g:
+```scala
+ fa.map(g(f(_))) == fa.map(f).map(g)
+```
+
+## Aside: Higher Kinds and Type Constructors
+_Kinds are like types for types. They describe the number of “holes” in a type  
+For example, List is a type constructor with one hole. We fill that hole by specifying a parameter to produce a regular type like List[Int] or List[A]. The trick is not to confuse type constructors with generic types. List is a type constructor, List[A] is a type:_
+
+```scala
+// Declare F using underscores:
+def myMethod[F[_]] = {
+  // Reference F without underscores:
+  val functor = Functor.apply[F]
+  // ...
+}
+```
+
+To define a new Functor you just need to define it's map method:
+```scala
+implicit val optionFunctor: Functor[Option] =
+  new Functor[Option] {
+    def map[A, B](value: Option[A])(func: A => B): Option[B] =
+      value.map(func)
+  }
+```
+
+See [Binary tree functor example](cats/src/main/scala/BinTreeFunctor.scala) for real-world example.  
+Important here is that `toFunctorOps` from `cats.implicits._` needs to be imported for it to work, otherwise it can't find the implicitly defined functor.
+
+## Contravariant and Invariant Functors
