@@ -125,8 +125,9 @@ Composition: mapping with two functions f and g is the same as mapping with f an
  fa.map(g(f(_))) == fa.map(f).map(g)
 ```
 
-## Aside: Higher Kinds and Type Constructors
-_Kinds are like types for types. They describe the number of “holes” in a type  
+_## Aside: Higher Kinds and Type Constructors_
+
+_Kinds are like types for types. They describe the number of "holes" in a type  
 For example, List is a type constructor with one hole. We fill that hole by specifying a parameter to produce a regular type like List[Int] or List[A]. The trick is not to confuse type constructors with generic types. List is a type constructor, List[A] is a type:_
 
 ```scala
@@ -151,3 +152,55 @@ See [Binary tree functor example](cats/src/main/scala/BinTreeFunctor.scala) for 
 Important here is that `toFunctorOps` from `cats.implicits._` needs to be imported for it to work, otherwise it can't find the implicitly defined functor.
 
 ## Contravariant and Invariant Functors
+_The contravariant functor, provides an operation called contramap that represents "prepending" an operation to a chain._
+
+Example here, note self alias to distinguish between the 2 format methods.
+```scala
+object Contramap extends App {
+
+  trait Printable[A] {
+    self => def format(value: A): String
+
+    def contramap[B](func: B => A): Printable[B] =
+      new Printable[B] {
+        def format(value: B): String = self.format(func(value))
+      }
+  }
+
+  def format[A](value: A)(implicit p: Printable[A]): String = p.format(value)
+}
+```
+
+This uses the contramap to more efficiently create a printable for the `Box[A]` type. This is more convenient instead of creating a new `Printable[Box[A]]` instance.
+```scala
+ final case class Box[A](value: A)
+ implicit def boxPrintable[A](implicit p: Printable[A]) = p.contramap[Box[A]](_.value)
+
+  // this should work
+  format(Box("hello world"))
+  // res5: String = "hello world"
+  format(Box(true))
+  // res6: String = yes
+ ```
+
+### Detour: self types
+https://docs.scala-lang.org/tour/self-types.html
+```scala
+trait User {
+  def username: String
+}
+
+trait Tweeter {
+  this: User =>  // reassign this
+  def tweet(tweetText: String) = println(s"$username: $tweetText")
+}
+
+class VerifiedTweeter(val username_ : String) extends Tweeter with User {  // We mixin User because Tweeter required it
+	def username = s"real $username_"
+}
+
+val realBeyoncé = new VerifiedTweeter("Beyoncé")
+realBeyoncé.tweet("Just spilled my glass of lemonade")  // prints "real Beyoncé: Just spilled my glass of lemonade"
+```
+In this case in the trait Tweeter `this` is assigned to the trait `User`, so it must be mixed in during mixin. Also because it is called `this` the usage is inferred (you can omit `this.username`).
+
