@@ -1,4 +1,4 @@
-# Scala with Cats
+# Scala with Cats🐈
 
 # Anatomy of a Type Class
 This is used to provide
@@ -204,3 +204,147 @@ realBeyoncé.tweet("Just spilled my glass of lemonade")  // prints "real Beyonc�
 ```
 In this case in the trait Tweeter `this` is assigned to the trait `User`, so it must be mixed in during mixin. Also because it is called `this` the usage is inferred (you can omit `this.username`).
 
+### Invariant functors
+Invariant functors implement a function called `imap`.
+It's like a combination of `map` and `contramap`.
+Map generates new type class instances by appending a function to a chain, `contramap` generates them by prepending it to the chain.
+imap generates them via a pair of bidirectional transformations.
+
+This is usually used for encoding and decoding a data type. 
+```scala
+object imap extends App {
+
+  trait Codec[A] {
+    def encode(value: A): String
+
+    def decode(value: String): A
+
+    def imap[B](dec: A => B, enc: B => A): Codec[B] = {
+      val self = this
+      new Codec[B] {
+        def encode(value: B): String =
+          self.encode(enc(value))
+
+        def decode(value: String): B =
+          dec(self.decode(value))
+      }
+    }
+  }
+}
+```
+
+Example (string to string is a no-op): 
+```scala
+implicit val stringCodec: Codec[String] =
+  new Codec[String] {
+    def encode(value: String): String = value
+    def decode(value: String): String = value
+  }
+
+implicit val intCodec: Codec[Int] =
+  stringCodec.imap(_.toInt, _.toString)
+implicit val booleanCodec: Codec[Boolean] =
+  stringCodec.imap(_.toBoolean, _.toString)
+```
+
+# Monads
+_a monad is anything with a constructor and a flatMap method._  
+_A monad is a mechanism for sequencing computations._ 
+_Every monad is also a functor (see below for proof), so we can rely on both flatMap and map to sequence computations that do and don’t introduce a new monad. Plus, if we have both flatMap and map we can use for comprehensions to clarify the sequencing behaviour:_
+```scala
+def stringDivideBy(aStr: String, bStr: String): Option[Int] = for {
+    aNum <- parseInt(aStr)
+    bNum <- parseInt(bStr)
+    ans  <- divide(aNum, bNum)
+} yield ans
+```
+
+Simplified version of Monad in Cats:  
+```scala
+import scala.language.higherKinds
+trait Monad[F[_]] {
+  def pure[A](value: A): F[A]
+  def flatMap[A, B](value: F[A])(func: A => F[B]): F[B]
+}
+```
+
+Laws that must be obeyed:
+_Left identity: calling pure and transforming the result with func is the same as calling func:_
+```scala
+pure(a).flatMap(func) == func(a)
+```
+_Right identity: passing pure to flatMap is the same as doing nothing:_
+```scala
+m.flatMap(pure) == m
+```
+_Associativity: flatMapping over two functions f and g is the same as flatMapping over f and then flatMapping over g:_
+```scala
+m.flatMap(f).flatMap(g) == m.flatMap(x => f(x).flatMap(g))
+```
+Implementing a `map` function for a monad:  
+```scala
+trait Monad[F[_]] {
+    def pure[A](a: A): F[A]
+
+    def flatMap[A, B](value: F[A])(func: A => F[B]): F[B]
+
+    def map[A, B](value: F[A])(func: A => B): F[B] =
+      flatMap(value)(a => pure(func(a)))
+  }
+```
+
+## The Identity Monad
+This only works on Options and Lists.
+```scala
+import scala.language.higherKinds
+import cats.Monad
+import cats.syntax.functor._ // for map
+import cats.syntax.flatMap._ // for flatMap
+def sumSquare[F[_]: Monad](a: F[Int], b: F[Int]): F[Int] = 
+  for {
+    x <- a
+    y <- b
+  } yield x*x + y*y
+```
+To use plain values `cats.Id` can be used:
+```scala
+import cats.Id
+sumSquare(3 : Id[Int], 4 : Id[Int])
+// res2: cats.Id[Int] = 25
+```
+This implements `map`, `flatMap` and `pure` for Id.
+Interesting here is that map & flatMap are actually the same, also all type info can be ignored, as `A` will be cast to `Id[A]` automatically
+```scala
+object MonadicId extends App {
+
+  import cats.Id
+
+  def pure[A](value: A): Id[A] = value
+
+  def map[A, B](initial: Id[A])(func: A => B): Id[B] =
+    func(initial)
+
+  def flatMap[A, B](initial: Id[A])(func: A => Id[B]): Id[B] = func(initial)
+  
+
+  println(map(123)(_*2))
+
+  println(flatMap(123)(_*2))
+}
+```
+
+## Either
+Since scala 2.12, `Either` is right-biased. flatMap will point to Right.  
+There are some convenience methods in Cats:
+```scala
+import cats.syntax.either._ // for asRight
+val a = 3.asRight[String]
+// a: Either[String,Int] = Right(3)
+val b = 4.asRight[String]
+// b: Either[String,Int] = Right(4)
+for {
+x <- a
+y <- b
+} yield x*x + y*y
+// res4: scala.util.Either[String,Int] = Right(25)
+```

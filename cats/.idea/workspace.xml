@@ -2,9 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6750711c-d242-4ac0-8cdc-17b3aa32e881" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/scala/Contramap.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/scala/Monad.scala" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/scala/MonadicId.scala" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/scala/imap.scala" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Cats.md" beforeDir="false" afterPath="$PROJECT_DIR$/../Cats.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Learning.md" beforeDir="false" afterPath="$PROJECT_DIR$/../Learning.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -27,15 +29,6 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/build.sbt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="495">
-              <caret line="33" column="32" selection-start-line="33" selection-start-column="32" selection-end-line="33" selection-end-column="32" />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/scala/show.scala">
           <provider selected="true" editor-type-id="text-editor">
@@ -93,8 +86,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/scala/BinTreeFunctor.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="525">
-              <caret line="35" lean-forward="true" selection-start-line="35" selection-end-line="35" />
+            <state relative-caret-position="510">
+              <caret line="35" selection-start-line="35" selection-end-line="35" />
               <folding>
                 <element signature="e#0#19#0" expanded="true" />
               </folding>
@@ -102,11 +95,38 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/scala/Contramap.scala">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="555">
-              <caret line="37" lean-forward="true" selection-start-line="37" selection-end-line="37" />
+              <caret line="37" selection-start-line="37" selection-end-line="37" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/scala/imap.scala">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="345">
+              <caret line="23" selection-start-line="23" selection-end-line="23" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/scala/Monad.scala">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="105">
+              <caret line="7" column="26" selection-start-line="7" selection-start-column="26" selection-end-line="7" selection-end-column="26" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/scala/MonadicId.scala">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="270">
+              <caret line="18" lean-forward="true" selection-start-line="18" selection-end-line="18" />
             </state>
           </provider>
         </entry>
@@ -125,6 +145,9 @@
         <option value="$PROJECT_DIR$/src/main/scala/SuperAdder.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/BinTreeFunctor.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/Contramap.scala" />
+        <option value="$PROJECT_DIR$/src/main/scala/imap.scala" />
+        <option value="$PROJECT_DIR$/src/main/scala/Monad.scala" />
+        <option value="$PROJECT_DIR$/src/main/scala/MonadicId.scala" />
       </list>
     </option>
   </component>
@@ -140,7 +163,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
       <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
@@ -148,11 +170,6 @@
             <path>
               <item name="cats" type="b2602c69:ProjectViewProjectNode" />
               <item name="cats" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="cats" type="b2602c69:ProjectViewProjectNode" />
-              <item name="cats" type="462c0819:PsiDirectoryNode" />
-              <item name="project" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="cats" type="b2602c69:ProjectViewProjectNode" />
@@ -190,20 +207,6 @@
             <path>
               <item name="cats" type="b2602c69:ProjectViewProjectNode" />
               <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="sbt: org.typelevel:cats-core_2.12:1.6.0:jar" type="70bed36:NamedLibraryElementNode" />
-              <item name="cats-core_2.12-1.6.0.jar" type="462c0819:PsiDirectoryNode" />
-              <item name="cats" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="cats" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="sbt: org.typelevel:cats-core_2.12:1.6.0:jar" type="70bed36:NamedLibraryElementNode" />
-              <item name="cats-core_2.12-1.6.0.jar" type="462c0819:PsiDirectoryNode" />
-              <item name="syntax" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="cats" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
               <item name="sbt: org.typelevel:cats-kernel_2.12:1.6.0:jar" type="70bed36:NamedLibraryElementNode" />
             </path>
             <path>
@@ -211,25 +214,12 @@
               <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
               <item name="sbt: org.typelevel:cats-kernel_2.12:1.6.0:jar" type="70bed36:NamedLibraryElementNode" />
               <item name="cats-kernel_2.12-1.6.0.jar" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="cats" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="sbt: org.typelevel:cats-kernel_2.12:1.6.0:jar" type="70bed36:NamedLibraryElementNode" />
-              <item name="cats-kernel_2.12-1.6.0.jar" type="462c0819:PsiDirectoryNode" />
-              <item name="kernel" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="cats" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="sbt: org.typelevel:cats-kernel_2.12:1.6.0:jar" type="70bed36:NamedLibraryElementNode" />
-              <item name="cats-kernel_2.12-1.6.0.jar" type="462c0819:PsiDirectoryNode" />
-              <item name="instances" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -262,7 +252,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.BinTreeFunctor">
+  <component name="RunManager" selected="Application.MonadicId">
     <configuration default="true" type="Applet">
       <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
       <method v="2">
@@ -271,6 +261,14 @@
     </configuration>
     <configuration name="BinTreeFunctor" type="Application" factoryName="Application" temporary="true">
       <option name="MAIN_CLASS_NAME" value="BinTreeFunctor" />
+      <module name="hello-world" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="MonadicId" type="Application" factoryName="Application" temporary="true">
+      <option name="MAIN_CLASS_NAME" value="MonadicId" />
       <module name="hello-world" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <method v="2">
@@ -307,14 +305,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="test" type="Application" factoryName="Application" temporary="true">
-      <option name="MAIN_CLASS_NAME" value="test" />
-      <module name="hello-world" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration default="true" type="JUnit" factoryName="JUnit">
       <option name="TEST_OBJECT" value="class" />
       <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
@@ -332,20 +322,20 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="Application.test" />
       <item itemvalue="Application.Show" />
       <item itemvalue="Application.ShowExample" />
       <item itemvalue="Application.SuperAdder" />
       <item itemvalue="Application.BinTreeFunctor" />
       <item itemvalue="sbt Task.run" />
+      <item itemvalue="Application.MonadicId" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.MonadicId" />
         <item itemvalue="Application.BinTreeFunctor" />
         <item itemvalue="Application.SuperAdder" />
         <item itemvalue="Application.ShowExample" />
         <item itemvalue="Application.Show" />
-        <item itemvalue="Application.test" />
       </list>
     </recent_temporary>
   </component>
@@ -410,18 +400,23 @@
       <updated>1562921761886</updated>
       <workItem from="1562921763251" duration="4782000" />
       <workItem from="1563976647409" duration="4960000" />
-      <workItem from="1564403484070" duration="2945000" />
+      <workItem from="1564403484070" duration="6904000" />
+      <workItem from="1564993486404" duration="21000" />
+      <workItem from="1564993573945" duration="5000" />
+      <workItem from="1564993620626" duration="2826000" />
+      <workItem from="1565268062841" duration="511000" />
+      <workItem from="1565600173448" duration="851000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="12687000" />
+    <option name="totallyTimeSpent" value="20860000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1440" y="-517" width="1632" height="1417" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.3408805" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.36289307" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="Image Layers" order="3" />
@@ -430,15 +425,15 @@
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.47643313" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.47622642" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Build" order="7" />
       <window_info anchor="bottom" id="sbt-shell-toolwindow" order="8" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="9" visible="true" weight="0.1954717" />
-      <window_info anchor="bottom" id="Docker" order="10" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Terminal" order="9" weight="0.1954717" />
+      <window_info anchor="bottom" id="Docker" order="10" weight="0.32981133" />
       <window_info anchor="bottom" id="Event Log" order="11" side_tool="true" />
       <window_info anchor="bottom" id="Messages" order="12" weight="0.32866243" />
       <window_info anchor="bottom" id="Database Changes" order="13" />
@@ -549,8 +544,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/scala/BinTreeFunctor.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="525">
-          <caret line="35" lean-forward="true" selection-start-line="35" selection-end-line="35" />
+        <state relative-caret-position="510">
+          <caret line="35" selection-start-line="35" selection-end-line="35" />
           <folding>
             <element signature="e#0#19#0" expanded="true" />
           </folding>
@@ -560,7 +555,28 @@
     <entry file="file://$PROJECT_DIR$/src/main/scala/Contramap.scala">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="555">
-          <caret line="37" lean-forward="true" selection-start-line="37" selection-end-line="37" />
+          <caret line="37" selection-start-line="37" selection-end-line="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/imap.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="345">
+          <caret line="23" selection-start-line="23" selection-end-line="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/Monad.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="7" column="26" selection-start-line="7" selection-start-column="26" selection-end-line="7" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/MonadicId.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="18" lean-forward="true" selection-start-line="18" selection-end-line="18" />
         </state>
       </provider>
     </entry>

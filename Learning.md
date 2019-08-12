@@ -99,7 +99,7 @@ val abcde = List('a', 'b', 'c', 'd', 'e')
 | `.take`       | abcde take 2 == `List(a, b)`                   |
 | `.drop`       | abcde drop 2 == `List(c, d, e)`                |
 | `.splitAt`    | abcde splitAt 2 == `(List(a, b),List(c, d, e))`|
-| `.apply`      | abcde apply 2 == `'c'`                          |
+| `.apply`      | abcde apply 2 == `'c'`                         |
 | `.indices`    | abcde.indices == `Range(0, 1, 2, 3, 4)`        |
 
 `zip`
