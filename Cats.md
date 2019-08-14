@@ -125,7 +125,7 @@ Composition: mapping with two functions f and g is the same as mapping with f an
  fa.map(g(f(_))) == fa.map(f).map(g)
 ```
 
-_## Aside: Higher Kinds and Type Constructors_
+## Aside: Higher Kinds and Type Constructors
 
 _Kinds are like types for types. They describe the number of "holes" in a type  
 For example, List is a type constructor with one hole. We fill that hole by specifying a parameter to produce a regular type like List[Int] or List[A]. The trick is not to confuse type constructors with generic types. List is a type constructor, List[A] is a type:_
@@ -138,6 +138,21 @@ def myMethod[F[_]] = {
   // ...
 }
 ```
+From [stackoverflow](https://stackoverflow.com/questions/6246719/what-is-a-higher-kinded-type-in-scala)  
+_A type constructor is a type that you can apply to type arguments to "construct" a type._  
+_A value constructor is a value that you can apply to value arguments to "construct" a value._
+
+```scala
+                   proper    first-order           higher-order
+
+values             10        (x: Int) => x         (f: (Int => Int)) => f(10)
+types (classes)    String    List                  Functor
+types              String    ({type λ[x] = x})#λ   ({type λ[F[x]] = F[String]})#λ
+```
+
+![Relationship between values, types and kinds](https://i.stack.imgur.com/K0dwL.jpg)
+
+## Continue Functors
 
 To define a new Functor you just need to define it's map method:
 ```scala
@@ -348,3 +363,124 @@ y <- b
 } yield x*x + y*y
 // res4: scala.util.Either[String,Int] = Right(25)
 ```
+### Error handling
+```scala
+for {
+  a <- 1.asRight[String]
+  b <- 0.asRight[String]
+  c <- if(b == 0) "DIV0".asLeft[Int]
+       else (a / b).asRight[String]
+} yield c * 100
+// res21: scala.util.Either[String,Int] = Left(DIV0)
+```
+
+_Cats provides an additional type class called MonadError that abstracts over Either-like data types that are used for error handling. MonadError provides extra operations for raising and handling errors._  
+Simple version: 
+```scala
+package cats
+trait MonadError[F[_], E] extends Monad[F] {
+  // Lift an error into the `F` context:
+  def raiseError[A](e: E): F[A]
+  // Handle an error, potentially recovering from it:
+  def handleError[A](fa: F[A])(f: E => A): F[A]
+  // Test an instance of `F`,
+  // failing if the predicate is not satisfied:
+  def ensure[A](fa: F[A])(e: E)(f: A => Boolean): F[A]
+}
+```
+
+## Eval Monad
+_`cats.Eval` is a monad that allows us to abstract over different models of evaluation. We typically hear of two such models: eager and lazy. `Eval` throws in a further distinction of whether or not a result is memoized._  
+
+| Scala | Type | When? |
+| ----- | ----- | ------ |
+| Eager| immediately|
+| Lazy| on access|
+| Memoized| run once on first access, after that results are cached |
+
+`val`: eager, memoized
+
+```scala
+val x = {
+  println("Computing X")
+  math.random
+}
+// Computing X
+// x: Double = 0.32119158749503807
+x // first access
+// res0: Double = 0.32119158749503807
+x // second access
+// res1: Double = 0.32119158749503807
+```
+`def`: lazy, not memoized
+```scala
+def y = {
+  println("Computing Y")
+  math.random
+}
+// y: Double
+y // first access
+// Computing Y
+// res2: Double = 0.5179245763430056
+y // second access
+// Computing Y
+// res3: Double = 0.8657077812314633
+```
+`lazy val`: lazy, memoized
+```scala
+lazy val z = {
+  println("Computing Z")
+  math.random
+}
+// z: Double = <lazy>
+z // first access
+// Computing Z
+// res4: Double = 0.027165389120539563
+z // second access
+// res5: Double = 0.027165389120539563
+```
+### `Eval` in cats
+```scala
+import cats.Eval
+val now = Eval.now(math.random + 1000)
+// now: cats.Eval[Double] = Now(1000.6884369117727)
+val later = Eval.later(math.random + 2000)
+// later: cats.Eval[Double] = cats.Later@71175ee9
+val always = Eval.always(math.random + 3000)
+// always: cats.Eval[Double] = cats.Always@462e2fea
+```
+Extract the value with `now.value`
+As Eval is a Monad it can be chained, and steps are cached:
+```scala
+val saying = Eval.
+  always { println("Step 1"); "The cat" }.
+  map { str => println("Step 2"); s"$str sat on" }.
+  memoize.
+  map { str => println("Step 3"); s"$str the mat" }
+// saying: cats.Eval[String] = cats.Eval$$anon$8@7a0389b5
+saying.value // first access
+// Step 1
+// Step 2
+// Step 3
+// res18: String = The cat sat on the mat
+saying.value // second access
+// Step 3
+// res19: String = The cat sat on the mat
+```
+_One useful property of Eval is that its map and flatMap methods are trampolined. This means we can nest calls to map and flatMap arbitrarily without consuming stack frames. We call this property “stack safety”._ 
+Example:
+```scala
+def factorial(n: BigInt): BigInt =
+  if(n == 1) n else n * factorial(n - 1)
+```
+`factorial(50000)` will stackoverflow
+```scala
+  def factorial(n: BigInt): Eval[BigInt] =
+   if(n == 1) {
+     Eval.now(n)
+   } else {
+     Eval.defer(factorial(n - 1).map(_ * n))
+   }
+ factorial(50000).value
+```
+_ we must bear in mind that trampolining is not free. It avoids consuming stack by creating a chain of function objects on the heap. There are still limits on how deeply we can nest computations, but they are bounded by the size of the heap rather than the stack._
