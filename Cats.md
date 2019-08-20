@@ -484,3 +484,71 @@ def factorial(n: BigInt): BigInt =
  factorial(50000).value
 ```
 _ we must bear in mind that trampolining is not free. It avoids consuming stack by creating a chain of function objects on the heap. There are still limits on how deeply we can nest computations, but they are bounded by the size of the heap rather than the stack._
+## The Reader Monad
+Used to sequence operations that depend on some input. 
+```scala
+import cats.data.Reader
+case class Cat(name: String, favoriteFood: String)
+// defined class Cat
+val catName: Reader[Cat, String] =
+  Reader(cat => cat.name)
+// catName: cats.data.Reader[Cat,String] = Kleisli(<function1>)
+
+catName.run(Cat("Garfield", "lasagne"))
+// res0: cats.Id[String] = Garfield
+```
+
+Composition:
+
+map just extends the computation, by passing the result through a function
+```scala
+val greetKitty: Reader[Cat, String] =
+  catName.map(name => s"Hello ${name}")
+greetKitty.run(Cat("Heathcliff", "junk food")) // res1: cats.Id[String] = Hello Heathcliff
+```
+
+flatmap (using for comprehension)
+```scala
+val feedKitty: Reader[Cat, String] =
+Reader(cat => s"Have a nice bowl of ${cat.favoriteFood}")
+val greetAndFeed: Reader[Cat, String] =
+  for {
+    greet <- greetKitty
+    feed  <- feedKitty
+  } yield s"$greet. $feed."
+greetAndFeed(Cat("Garfield", "lasagne"))
+// res3: cats.Id[String] = Hello Garfield. Have a nice bowl of lasagne
+.
+greetAndFeed(Cat("Heathcliff", "junk food"))
+// res4: cats.Id[String] = Hello Heathcliff. Have a nice bowl of junk
+food.
+```
+
+Reader example with chaining:
+[Readers](cats/src/main/scala/Readers.scala)
+```scala
+case class Db(
+                usernames: Map[Int, String],
+                passwords: Map[String, String]
+              )
+
+type DbReader[A] = Reader[Db, A]
+
+def findUsername(userId: Int): DbReader[Option[String]] = Reader(db => db.usernames.get(userId))
+
+def checkPassword(username: String, password: String): DbReader[Boolean] =
+  Reader(db => db.passwords.get(username).map(_ == password).getOrElse(false))
+
+def checkLogin(userId: Int, password: String): DbReader[Boolean] = for {
+  username <- findUsername(userId)
+  valid <- username.map(checkPassword(_, password)).getOrElse(false.pure[DbReader])
+} yield valid
+```
+Unfortunately I got this error while compiling, somehow there must be a clash between 2 implicits for the `false.pure`
+```
+Error:(26, 19) ambiguous implicit values:
+ both method catsDataMonadForKleisliId in class KleisliInstances of type [A]=> cats.CommutativeMonad[[γ$15$]cats.data.Kleisli[[A]A,A,γ$15$]]
+ and method catsApplicativeForArrow in object Applicative of type [F[_, _], A](implicit F: cats.arrow.Arrow[F])cats.Applicative[[β$0$]F[A,β$0$]]
+ match expected type cats.Applicative[Readers.DbReader]
+        false.pure[DbReader]
+```
