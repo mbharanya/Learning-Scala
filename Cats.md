@@ -552,3 +552,56 @@ Error:(26, 19) ambiguous implicit values:
  match expected type cats.Applicative[Readers.DbReader]
         false.pure[DbReader]
 ```
+
+Readers are most useful in situations where:
+- we are constructing a batch program that can easily be represented by
+a function;
+- we need to defer injection of a known parameter or set of parameters;
+- we want to be able to test parts of the program in isolation.
+
+## The State Monad
+instances of State[S, A] represent functions of type S => (S, A).Sis the type of the state and A is the type of the result.
+```scala
+import cats.data.State
+val a = State[Int, String] { state =>
+  (state, s"The state is $state")
+}
+// a: cats.data.State[Int,String] = cats.data.IndexedStateT@70142af6
+
+
+// Get the state and the result:
+val (state, result) = a.run(10).value
+// state: Int = 10
+// result: String = The state is 10
+// Get the state, ignore the result:
+val state = a.runS(10).value
+// state: Int = 10
+// Get the result, ignore the state:
+val result = a.runA(10).value
+// result: String = The state is 10
+```
+
+The map and flatMap methods thread the state from one instance to another. Each individual instance represents an atomic state transformation, and their combination represents a complete sequence of changes
+
+## Defining Custom Monads
+Example for `Option`
+```scala
+import cats.Monad
+import scala.annotation.tailrec
+val optionMonad = new Monad[Option] {
+  def flatMap[A, B](opt: Option[A])
+      (fn: A => Option[B]): Option[B] =
+    opt flatMap fn
+  def pure[A](opt: A): Option[A] =
+    Some(opt)
+  @tailrec
+  def tailRecM[A, B](a: A)
+      (fn: A => Option[Either[A, B]]): Option[B] =
+    fn(a) match {
+      case None           => None
+      case Some(Left(a1)) => tailRecM(a1)(fn)
+      case Some(Right(b)) => Some(b)
+  } 
+}
+```
+tailRecM is used to minimize stack space used

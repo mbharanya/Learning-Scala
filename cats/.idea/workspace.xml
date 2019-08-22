@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6750711c-d242-4ac0-8cdc-17b3aa32e881" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/scala/Readers.scala" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Cats.md" beforeDir="false" afterPath="$PROJECT_DIR$/../Cats.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
@@ -400,12 +399,12 @@
       <workItem from="1565268062841" duration="511000" />
       <workItem from="1565600173448" duration="2132000" />
       <workItem from="1565621349873" duration="595000" />
-      <workItem from="1565774294869" duration="6143000" />
+      <workItem from="1565774294869" duration="6834000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="28879000" />
+    <option name="totallyTimeSpent" value="29570000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1440" y="-517" width="1632" height="1417" extended-state="0" />
