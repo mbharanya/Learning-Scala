@@ -648,28 +648,3 @@ selectorString match { case EMail(user, domain) => ... }
 // would lead to the call:
 EMail.unapply(selectorString)
 ```
-
-# Misc
-
-- Is the `Any` type dangerous? Seems like bad practice to use it - ever
-
-- Varags are done with `*`
-  Example: 
-  ```scala
-  // calculate the sum of all the numbers passed to the method
-  def sum(args: Int*): Int = args.fold(0)(_+_)
-  ```
-
-- `AnyRef` represents reference types. All non-value types are defined as reference types. Every user-defined type in Scala is a subtype of `AnyRef`. If Scala is used in the context of a Java runtime environment, `AnyRef` corresponds to `java.lang.Object`.
-
-- `require` throws `IllegalArgumentException` and `assert` throws `AssertionError`.
-
-- Currying  
-_Methods may define multiple parameter lists. When a method is called with a fewer number of parameter lists, then this will yield a function taking the missing parameter lists as its arguments._
-
-- 1. A Functor is a structure with a map function.
-  2. A Monad is a structure with a flatMap function.
-
-
-- `case object`  
-  is a singleton, no constructor, can be used for pattern matching

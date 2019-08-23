@@ -15,3 +15,4 @@ The notes are meant as a learning aid for me and maybe as a cheat sheet for my f
 ![](https://underscore.io/images/books/scala-with-cats.png)  
 [Scala with Cats](Cats.md)
 
+[Miscellaneous Scala related topics](Misc.md)
