@@ -2,8 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6750711c-d242-4ac0-8cdc-17b3aa32e881" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/scala/MonadTranformers.scala" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Cats.md" beforeDir="false" afterPath="$PROJECT_DIR$/../Cats.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/scala/Readers.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/Readers.scala" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -95,9 +97,21 @@
         <entry file="file://$PROJECT_DIR$/src/main/scala/Readers.scala">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="495">
-              <caret line="33" column="35" selection-start-line="33" selection-start-column="35" selection-end-line="33" selection-end-column="35" />
+              <caret line="33" selection-start-line="33" selection-start-column="2" selection-end-line="35" selection-end-column="45" />
               <folding>
                 <element signature="e#0#23#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/scala/MonadTranformers.scala">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="210">
+              <caret line="14" column="8" lean-forward="true" selection-start-line="14" selection-start-column="8" selection-end-line="14" selection-end-column="8" />
+              <folding>
+                <element signature="e#110#127#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -122,6 +136,7 @@
         <option value="$PROJECT_DIR$/src/main/scala/MonadicId.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/Eval.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/CatsEval.scala" />
+        <option value="$PROJECT_DIR$/src/main/scala/MonadTranformers.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/Readers.scala" />
       </list>
     </option>
@@ -243,7 +258,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.Readers">
+  <component name="RunManager" selected="Application.MonadTranformers">
     <configuration default="true" type="Applet">
       <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
       <method v="2">
@@ -266,6 +281,14 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="MonadTranformers" type="Application" factoryName="Application" temporary="true">
+      <option name="MAIN_CLASS_NAME" value="MonadTranformers" />
+      <module name="hello-world" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="MonadicId" type="Application" factoryName="Application" temporary="true">
       <option name="MAIN_CLASS_NAME" value="MonadicId" />
       <module name="hello-world" />
@@ -279,14 +302,6 @@
       <module name="hello-world" />
       <option name="PROGRAM_PARAMETERS" value="-Ypartial-unification" />
       <option name="VM_PARAMETERS" value="-Ypartial-unification" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="SuperAdder" type="Application" factoryName="Application" temporary="true">
-      <option name="MAIN_CLASS_NAME" value="SuperAdder" />
-      <module name="hello-world" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -314,20 +329,20 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="Application.SuperAdder" />
       <item itemvalue="Application.BinTreeFunctor" />
       <item itemvalue="Application.MonadicId" />
       <item itemvalue="Application.CatsEval" />
       <item itemvalue="Application.Readers" />
       <item itemvalue="sbt Task.run" />
+      <item itemvalue="Application.MonadTranformers" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.MonadTranformers" />
         <item itemvalue="Application.Readers" />
         <item itemvalue="Application.CatsEval" />
         <item itemvalue="Application.MonadicId" />
         <item itemvalue="Application.BinTreeFunctor" />
-        <item itemvalue="Application.SuperAdder" />
       </list>
     </recent_temporary>
   </component>
@@ -399,12 +414,12 @@
       <workItem from="1565268062841" duration="511000" />
       <workItem from="1565600173448" duration="2132000" />
       <workItem from="1565621349873" duration="595000" />
-      <workItem from="1565774294869" duration="6834000" />
+      <workItem from="1565774294869" duration="6993000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="29570000" />
+    <option name="totallyTimeSpent" value="29729000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1440" y="-517" width="1632" height="1417" extended-state="0" />
@@ -595,10 +610,20 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/MonadTranformers.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="14" column="8" lean-forward="true" selection-start-line="14" selection-start-column="8" selection-end-line="14" selection-end-column="8" />
+          <folding>
+            <element signature="e#110#127#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/scala/Readers.scala">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="495">
-          <caret line="33" column="35" selection-start-line="33" selection-start-column="35" selection-end-line="33" selection-end-column="35" />
+          <caret line="33" selection-start-line="33" selection-start-column="2" selection-end-line="35" selection-end-column="45" />
           <folding>
             <element signature="e#0#23#0" expanded="true" />
           </folding>

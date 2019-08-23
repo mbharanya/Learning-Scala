@@ -605,3 +605,62 @@ val optionMonad = new Monad[Option] {
 }
 ```
 tailRecM is used to minimize stack space used
+
+# Monad Transformers
+It quickly can become cumbersome to work with a lot of nested Monads:
+```scala
+def lookupUserName(id: Long): Either[Error, Option[String]] = 
+for {
+    optUser <- lookupUser(id)
+  } yield {
+    for { user <- optUser } yield user.name
+}
+```
+
+```scala
+import cats.Monad
+import cats.syntax.applicative._ // for pure
+import cats.syntax.flatMap._     // for flatMap
+import scala.language.higherKinds
+// Hypothetical example. This won't actually compile:
+def compose[M1[_]: Monad, M2[_]: Monad] = {
+  type Composed[A] = M1[M2[A]]
+  new Monad[Composed] {
+    def pure[A](a: A): Composed[A] =
+      a.pure[M2].pure[M1]
+    def flatMap[A, B](fa: Composed[A])
+        (f: A => Composed[B]): Composed[B] =
+      // Problem! How do we write flatMap?
+    ??? 
+  }
+}
+```
+_It is impossible to write a general definition of flatMap without knowing something about M1 or M2_
+
+If we do know something about one of the types we can complete the code.  
+For Option:
+```scala
+def flatMap[A, B](fa: Composed[A])
+    (f: A => Composed[B]): Composed[B] =
+  fa.flatMap(_.fold(None.pure[M])(f))
+```
+_Cats provides transformers for many monads, each named with a T suffix: EitherT composes Either with other monads, OptionT composes Option, and so on._
+
+```scala
+import cats.data.OptionT
+type ListOption[A] = OptionT[List, A]
+```
+```scala
+import cats.Monad
+import cats.instances.list._     // for Monad
+import cats.syntax.applicative._ // for pure
+val result1: ListOption[Int] = OptionT(List(Option(10))) // result1: ListOption[Int] = OptionT(List(Some(10)))
+val result2: ListOption[Int] = 32.pure[ListOption] // result2: ListOption[Int] = OptionT(List(Some(32)))
+
+result1.flatMap { (x: Int) =>
+  result2.map { (y: Int) =>
+    x+y 
+  }
+}
+// res1: cats.data.OptionT[List,Int] = OptionT(List(Some(42)))
+```

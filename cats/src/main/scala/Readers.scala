@@ -15,10 +15,10 @@ object Readers extends App {
   def checkPassword(username: String, password: String): DbReader[Boolean] =
     Reader(db => db.passwords.get(username).map(_ == password).getOrElse(false))
 
-  def checkLogin(userId: Int, password: String): DbReader[Boolean] = for {
-    username <- findUsername(userId)
-    valid <- username.map(checkPassword(_, password)).getOrElse(false.pure[DbReader])
-  } yield valid
+//  def checkLogin(userId: Int, password: String): DbReader[Boolean] = for {
+//    username <- findUsername(userId)
+//    valid <- username.map(checkPassword(_, password)).getOrElse(false.pure[DbReader])
+//  } yield valid
 
   val users = Map(
     1 -> "dade",
@@ -31,9 +31,9 @@ object Readers extends App {
     "margo" -> "secret"
   )
   val db = Db(users, passwords)
-  println(checkLogin(1, "zerocool").run(db))
-  // res10: cats.Id[Boolean] = true
-  println(checkLogin(4, "davinci").run(db))
+//  println(checkLogin(1, "zerocool").run(db))
+//  // res10: cats.Id[Boolean] = true
+//  println(checkLogin(4, "davinci").run(db))
   // res11: cats.Id[Boolean] = false
 
 }
