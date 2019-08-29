@@ -2,10 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6750711c-d242-4ac0-8cdc-17b3aa32e881" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/scala/MonadTranformers.scala" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/thriftCompiler.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/scala/MonadsTransformAndRollOut.scala" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Cats.md" beforeDir="false" afterPath="$PROJECT_DIR$/../Cats.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/scala/Readers.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/Readers.scala" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -27,27 +28,6 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
-        <entry file="jar://$USER_HOME$/.ivy2/cache/org.typelevel/cats-kernel_2.12/srcs/cats-kernel_2.12-1.6.0-sources.jar!/cats/kernel/instances/int.scala">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="105">
-              <caret line="7" column="15" selection-start-line="7" selection-start-column="15" selection-end-line="7" selection-end-column="15" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/scala/BinTreeFunctor.scala">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="510">
-              <caret line="35" selection-start-line="35" selection-end-line="35" />
-              <folding>
-                <element signature="e#0#19#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/scala/Contramap.scala">
           <provider selected="true" editor-type-id="text-editor">
@@ -93,10 +73,10 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/scala/Readers.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="495">
+            <state relative-caret-position="480">
               <caret line="33" selection-start-line="33" selection-start-column="2" selection-end-line="35" selection-end-column="45" />
               <folding>
                 <element signature="e#0#23#0" expanded="true" />
@@ -108,10 +88,22 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/scala/MonadTranformers.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="210">
-              <caret line="14" column="8" lean-forward="true" selection-start-line="14" selection-start-column="8" selection-end-line="14" selection-end-column="8" />
+            <state relative-caret-position="135">
+              <caret line="9" column="69" lean-forward="true" selection-start-line="9" selection-start-column="69" selection-end-line="9" selection-end-column="69" />
               <folding>
                 <element signature="e#110#127#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/scala/MonadsTransformAndRollOut.scala">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="377">
+              <caret line="50" column="2" selection-start-line="50" selection-start-column="2" selection-end-line="50" selection-end-column="2" />
+              <folding>
+                <element signature="e#0#24#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -138,14 +130,15 @@
         <option value="$PROJECT_DIR$/src/main/scala/CatsEval.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/MonadTranformers.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/Readers.scala" />
+        <option value="$PROJECT_DIR$/src/main/scala/MonadsTransformAndRollOut.scala" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
     <option name="x" value="1440" />
-    <option name="y" value="-517" />
-    <option name="width" value="1632" />
-    <option name="height" value="1417" />
+    <option name="y" value="23" />
+    <option name="width" value="1936" />
+    <option name="height" value="877" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -200,25 +193,14 @@
               <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
               <item name="sbt: org.scala-lang:scala-library:2.12.8:jar" type="70bed36:NamedLibraryElementNode" />
               <item name="scala-library-2.12.8.jar" type="462c0819:PsiDirectoryNode" />
-              <item name="immutable" type="462c0819:PsiDirectoryNode" />
+              <item name="concurrent" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="cats" type="b2602c69:ProjectViewProjectNode" />
               <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="sbt: org.typelevel:cats-core_2.12:1.6.0:jar" type="70bed36:NamedLibraryElementNode" />
-            </path>
-            <path>
-              <item name="cats" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="sbt: org.typelevel:cats-core_2.12:1.6.0:jar" type="70bed36:NamedLibraryElementNode" />
-              <item name="cats-core_2.12-1.6.0.jar" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="cats" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="sbt: org.typelevel:cats-core_2.12:1.6.0:jar" type="70bed36:NamedLibraryElementNode" />
-              <item name="cats-core_2.12-1.6.0.jar" type="462c0819:PsiDirectoryNode" />
-              <item name="syntax" type="462c0819:PsiDirectoryNode" />
+              <item name="sbt: org.scala-lang:scala-library:2.12.8:jar" type="70bed36:NamedLibraryElementNode" />
+              <item name="scala-library-2.12.8.jar" type="462c0819:PsiDirectoryNode" />
+              <item name="duration" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -258,17 +240,9 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.MonadTranformers">
+  <component name="RunManager" selected="Application.MonadsTransformAndRollOut">
     <configuration default="true" type="Applet">
       <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="BinTreeFunctor" type="Application" factoryName="Application" temporary="true">
-      <option name="MAIN_CLASS_NAME" value="BinTreeFunctor" />
-      <module name="hello-world" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -291,6 +265,14 @@
     </configuration>
     <configuration name="MonadicId" type="Application" factoryName="Application" temporary="true">
       <option name="MAIN_CLASS_NAME" value="MonadicId" />
+      <module name="hello-world" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="MonadsTransformAndRollOut" type="Application" factoryName="Application" temporary="true">
+      <option name="MAIN_CLASS_NAME" value="MonadsTransformAndRollOut" />
       <module name="hello-world" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <method v="2">
@@ -329,20 +311,20 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="Application.BinTreeFunctor" />
       <item itemvalue="Application.MonadicId" />
       <item itemvalue="Application.CatsEval" />
       <item itemvalue="Application.Readers" />
-      <item itemvalue="sbt Task.run" />
       <item itemvalue="Application.MonadTranformers" />
+      <item itemvalue="sbt Task.run" />
+      <item itemvalue="Application.MonadsTransformAndRollOut" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.MonadsTransformAndRollOut" />
         <item itemvalue="Application.MonadTranformers" />
         <item itemvalue="Application.Readers" />
         <item itemvalue="Application.CatsEval" />
         <item itemvalue="Application.MonadicId" />
-        <item itemvalue="Application.BinTreeFunctor" />
       </list>
     </recent_temporary>
   </component>
@@ -414,18 +396,19 @@
       <workItem from="1565268062841" duration="511000" />
       <workItem from="1565600173448" duration="2132000" />
       <workItem from="1565621349873" duration="595000" />
-      <workItem from="1565774294869" duration="6993000" />
+      <workItem from="1565774294869" duration="7609000" />
+      <workItem from="1566991883120" duration="2183000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="29729000" />
+    <option name="totallyTimeSpent" value="32528000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="1440" y="-517" width="1632" height="1417" extended-state="0" />
+    <frame x="1440" y="23" width="1936" height="877" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.3716981" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.3162619" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="Image Layers" order="3" />
@@ -434,7 +417,7 @@
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.47622642" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.34522292" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -444,7 +427,7 @@
       <window_info anchor="bottom" id="Terminal" order="9" weight="0.1954717" />
       <window_info anchor="bottom" id="Docker" order="10" weight="0.32981133" />
       <window_info anchor="bottom" id="Event Log" order="11" side_tool="true" />
-      <window_info anchor="bottom" id="Messages" order="12" visible="true" weight="0.32830188" />
+      <window_info anchor="bottom" id="Messages" order="12" weight="0.32738853" />
       <window_info anchor="bottom" id="Database Changes" order="13" />
       <window_info anchor="bottom" id="Version Control" order="14" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -537,6 +520,27 @@
         </state>
       </provider>
     </entry>
+    <entry file="jar://$USER_HOME$/.ivy2/cache/org.scala-lang/scala-library/srcs/scala-library-2.12.8-sources.jar!/scala/collection/immutable/List.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="218">
+          <caret line="447" column="17" selection-start-line="447" selection-start-column="17" selection-end-line="447" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/build.sbt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="483">
+          <caret line="33" column="32" selection-start-line="33" selection-start-column="32" selection-end-line="33" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.ivy2/cache/org.typelevel/cats-core_2.12/srcs/cats-core_2.12-1.6.0-sources.jar!/cats/syntax/applicative.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="19" lean-forward="true" selection-start-line="19" selection-end-line="19" />
+        </state>
+      </provider>
+    </entry>
     <entry file="jar://$USER_HOME$/.ivy2/cache/org.typelevel/cats-kernel_2.12/srcs/cats-kernel_2.12-1.6.0-sources.jar!/cats/kernel/instances/int.scala">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="105">
@@ -582,13 +586,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="jar://$USER_HOME$/.ivy2/cache/org.scala-lang/scala-library/srcs/scala-library-2.12.8-sources.jar!/scala/collection/immutable/List.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="218">
-          <caret line="447" column="17" selection-start-line="447" selection-start-column="17" selection-end-line="447" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/scala/CatsEval.scala">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="570">
@@ -596,36 +593,46 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/build.sbt">
+    <entry file="file://$PROJECT_DIR$/src/main/scala/Readers.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="483">
-          <caret line="33" column="32" selection-start-line="33" selection-start-column="32" selection-end-line="33" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$USER_HOME$/.ivy2/cache/org.typelevel/cats-core_2.12/srcs/cats-core_2.12-1.6.0-sources.jar!/cats/syntax/applicative.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="19" lean-forward="true" selection-start-line="19" selection-end-line="19" />
+        <state relative-caret-position="480">
+          <caret line="33" selection-start-line="33" selection-start-column="2" selection-end-line="35" selection-end-column="45" />
+          <folding>
+            <element signature="e#0#23#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/scala/MonadTranformers.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="14" column="8" lean-forward="true" selection-start-line="14" selection-start-column="8" selection-end-line="14" selection-end-column="8" />
+        <state relative-caret-position="135">
+          <caret line="9" column="69" lean-forward="true" selection-start-line="9" selection-start-column="69" selection-end-line="9" selection-end-column="69" />
           <folding>
             <element signature="e#110#127#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/scala/Readers.scala">
+    <entry file="jar://$USER_HOME$/.ivy2/cache/org.scala-lang/scala-library/srcs/scala-library-2.12.8-sources.jar!/scala/concurrent/duration/Duration.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="495">
-          <caret line="33" selection-start-line="33" selection-start-column="2" selection-end-line="35" selection-end-column="45" />
+        <state relative-caret-position="296">
+          <caret line="314" selection-start-line="314" selection-end-line="314" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.ivy2/cache/org.scala-lang/scala-library/srcs/scala-library-2.12.8-sources.jar!/scala/concurrent/package.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="684">
+          <caret line="217" column="54" lean-forward="true" selection-start-line="217" selection-start-column="54" selection-end-line="217" selection-end-column="54" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/MonadsTransformAndRollOut.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="377">
+          <caret line="50" column="2" selection-start-line="50" selection-start-column="2" selection-end-line="50" selection-end-column="2" />
           <folding>
-            <element signature="e#0#23#0" expanded="true" />
+            <element signature="e#0#24#0" expanded="true" />
           </folding>
         </state>
       </provider>

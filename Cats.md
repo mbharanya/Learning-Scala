@@ -664,3 +664,64 @@ result1.flatMap { (x: Int) =>
 }
 // res1: cats.data.OptionT[List,Int] = OptionT(List(Some(42)))
 ```
+
+_The transformer itself represents the inner monad in a stack, while the first type parameter specifies the outer monad. The remaining type parameters are the types we’ve used to form the corresponding monads._
+_For example, our ListOption type above is an alias for OptionT[List, A] but the result is effectively a List[Option[A]]. In other words, we build monad stacks from the inside out:_
+
+_For example, let’s create a Future of an Either of Option. Once again we build this from the inside out with an OptionT of an EitherT of Future. However, we can’t define this in one line because EitherT has three type parameters:_
+```scala
+case class EitherT[F[_], E, A](stack: F[Either[E, A]]) {
+    // etc...
+}
+```
+The three type parameters are as follows:
+- F[_] is the outer monad in the stack (Either is the inner);
+- E is the error type for the Either;
+- A is the result type for the Either.
+
+```scala
+import scala.concurrent.Future
+import cats.data.{EitherT, OptionT}
+
+type FutureEither[A] = EitherT[Future, String, A]
+type FutureEitherOption[A] = OptionT[FutureEither, A]
+
+import cats.instances.future._ // for Monad
+import scala.concurrent.Await
+import scala.concurrent.ExecutionContext.Implicits.global import scala.concurrent.duration._
+
+val futureEitherOr: FutureEitherOption[Int] =
+  for {
+    a <- 10.pure[FutureEitherOption]
+    b <- 32.pure[FutureEitherOption]
+  } yield a + b
+```
+
+Unpacking MonadTranformers:
+```scala
+// Create using apply:
+val errorStack1 = OptionT[ErrorOr, Int](Right(Some(10)))
+// errorStack1: cats.data.OptionT[ErrorOr,Int] = OptionT(Right(Some(10)))
+
+// Extracting the untransformed monad stack:
+errorStack1.value
+// res11: ErrorOr[Option[Int]] = Right(Some(10))
+// Mapping over the Either in the stack:
+errorStack2.value.map(_.getOrElse(-1))
+// res13: scala.util.Either[String,Int] = Right(32)
+```
+
+## Usage patterns
+Creating "super stacks" is pretty common. Example for request handlers:
+```scala
+sealed abstract class HttpError
+final case class NotFound(item: String) extends HttpError final case class BadRequest(msg: String) extends HttpError // etc...
+type FutureEither[A] = EitherT[Future, HttpError, A]
+```
+We use something similar in our codebase:
+
+```scala
+  // vox.buy.auth.controller
+  type EitherST[F[_], A] = EitherT[F, String, A]
+  type EitherFT[A]       = EitherST[Future, A]
+```
