@@ -2,7 +2,6 @@ import cats.data.EitherT
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import cats.instances.future._
-import cats.syntax.flatMap._
 import scala.concurrent.duration._
 
 import scala.concurrent.{Await, Future}

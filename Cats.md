@@ -725,3 +725,6 @@ We use something similar in our codebase:
   type EitherST[F[_], A] = EitherT[F, String, A]
   type EitherFT[A]       = EitherST[Future, A]
 ```
+[Excercise](cats/src/main/scala/MonadsTransformAndRollOut.scala)
+
+#Semigroupal and Applicative
