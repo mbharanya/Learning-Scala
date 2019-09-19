@@ -727,4 +727,125 @@ We use something similar in our codebase:
 ```
 [Excercise](cats/src/main/scala/MonadsTransformAndRollOut.scala)
 
-#Semigroupal and Applicative
+# Semigroupal and Applicative
+Problems with Monads:
+- Can't run in parallel
+- For validation can't capture all errors, breaks after first fail
+
+This is because it is assumed that computation in flatMap are dependend on the result of the last one.
+```scala
+ // context2 is dependent on value1:
+context1.flatMap(value1 => context2)
+```
+- _Semigroupal encompasses the notion of composing pairs of contexts. Cats provides a cats.syntax.apply module that makes use of Semigroupal and Functor to allow users to sequence functions with multiple arguments._
+
+- _Applicative extends Semigroupal and Functor. It provides a way of applying functions to parameters within a context. Applicative is the source of the pure method_
+
+From [Stackoverflow](https://stackoverflow.com/questions/19880207/when-and-why-should-one-use-applicative-functors-in-scala):
+
+_Writing applicative code allows you to avoid making unnecessary claims about dependencies between computations—claims that similar monadic code would commit you to. A sufficiently smart library or compiler could in principle take advantage of this fact._
+
+Monadic code example:
+```scala
+case class Foo(s: Symbol, n: Int)
+
+val maybeFoo = for {
+  s <- maybeComputeS(whatever)
+  n <- maybeComputeN(whatever)
+} yield Foo(s, n)
+```
+_We know that maybeComputeN(whatever) doesn't depend on s (assuming these are well-behaved methods that aren't changing some mutable state behind the scenes), but the compiler doesn't—from its perspective it needs to know s before it can start computing n._
+
+_The applicative version (using Scalaz) looks like this:_
+```scala
+val maybeFoo = (maybeComputeS(whatever) |@| maybeComputeN(whatever))(Foo(_, _))
+```
+This means that there is no dependency between the two computations
+
+## Semigroupal
+_If we have two objects of type `F[A]` and `F[B]`, a `Semigroupal[F]` allows us to
+combine them to form an `F[(A, B)]`_
+Definition in Cats:  
+```scala
+trait Semigroupal[F[_]] {
+  def product[A, B](fa: F[A], fb: F[B]): F[(A, B)]
+}
+```
+
+```scala
+import cats.Semigroupal
+import cats.instances.option._ // for Semigroupal
+Semigroupal[Option].product(Some(123), Some("abc")) // res0: Option[(Int, String)] = Some((123,abc)
+```
+if both are `Some` it will return a tuple, if either of them is None it will create None:
+```scala
+Semigroupal[Option].product(None, Some("abc")) // res1: Option[(Nothing, String)] = None
+Semigroupal[Option].product(Some(123), None)
+// res2: Option[(Int, Nothing)] = None
+```
+Short version:
+```scala
+import cats.instances.option._ // for Semigroupal
+import cats.syntax.apply._ // for tupled and mapN
+
+ (Option(123), Option("abc")).tupled
+// res7: Option[(Int, String)] = Some((123,abc))
+```
+`mapN` supports an implicit Functor and a function that matches the arity(number of parameters) to combine the values:
+```scala
+case class Cat(name: String, born: Int, color: String)
+(
+  Option("Garfield"),
+  Option(1978),
+  Option("Orange & black")
+).mapN(Cat.apply)
+// res9: Option[Cat] = Some(Cat(Garfield,1978,Orange & black)
+```
+
+### Future
+_The semantics for Future provide parallel as opposed to sequential execution:_
+```scala
+import cats.Semigroupal
+import cats.instances.future._ // for Semigroupal
+import scala.concurrent._
+import scala.concurrent.duration._
+import scala.concurrent.ExecutionContext.Implicits.global 
+import scala.language.higherKinds
+
+val futurePair = Semigroupal[Future].
+  product(Future("Hello"), Future(123))
+
+Await.result(futurePair, 1.second)
+// res1: (String, Int) = (Hello,123)
+```
+
+### List
+_Combining Lists with Semigroupal produces some potentially unexpected results. We might expect code like the following to zip the lists, but we actually get the cartesian product of their elements:_
+```scala
+import cats.Semigroupal
+import cats.instances.list._ // for Semigroupal
+Semigroupal[List].product(List(1, 2), List(3, 4))
+// res5: List[(Int, Int)] = List((1,3), (1,4), (2,3), (2,4))
+```
+
+### Either
+_We might expect product applied to Either to accumulate errors instead of fail fast. Again, perhaps surprisingly, we find that product implements the same fail-fast behaviour as flatMap:_
+```scala
+import cats.instances.either._ // for Semigroupal
+type ErrorOr[A] = Either[Vector[String], A]
+Semigroupal[ErrorOr].product(
+  Left(Vector("Error 1")),
+  Left(Vector("Error 2"))
+)
+// res7: ErrorOr[(Nothing, Nothing)] = Left(Vector(Error 1))
+```
+[Excercise product with flatmap](cats/src/main/scala/Ch6ProductOfMonad.scala)
+
+_We choose our semantics by choosing our data structures. If we choose a monad, we get strict sequencing. If we choose an applicative, we lose the ability to flatMap. This is the trade-off enforced by the consistency laws. So choose your types carefully!_
+
+# Foldable and Traverse
+- Foldable abstracts the familiar foldLeft and foldRight operations
+- Traverse is a higher-level abstraction that uses Applicatives to iterate with less pain than folding.
+
+## Foldable
+Folding needs a accumulator value & a binary function to combine each item in the sequence
