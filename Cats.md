@@ -848,4 +848,103 @@ _We choose our semantics by choosing our data structures. If we choose a monad, 
 - Traverse is a higher-level abstraction that uses Applicatives to iterate with less pain than folding.
 
 ## Foldable
-Folding needs a accumulator value & a binary function to combine each item in the sequence
+Folding needs a accumulator value & a binary function to combine each item in the sequence:
+```scala
+def show[A](list: List[A]): String = 
+  list.foldLeft("nil")((accum, item) => s"$item then $accum")
+show(Nil)
+// res0: String = nil
+show(List(1, 2, 3))
+// res1: String = 3 then 2 then 1 then nil
+```
+[Exercise: Reflecting on Folds](cats/src/main/scala/Folding.scala)
+
+Foldable contains a bunch of useful methods to safely (stack-safe) fold over collections
+```scala
+import cats.instances.int._ // for Monoid
+Foldable[List].combineAll(List(1, 2, 3))
+// res12: Int = 6
+```
+```scala
+import cats.instances.vector._ // for Monoid
+val ints = List(Vector(1, 2, 3), Vector(4, 5, 6))
+(Foldable[List] compose Foldable[Vector]).combineAll(ints)
+// res15: Int = 21
+```
+
+## Traverse
+```scala
+import scala.concurrent._
+import scala.concurrent.duration._
+import scala.concurrent.ExecutionContext.Implicits.global
+val hostnames = List(
+  "alpha.example.com",
+  "beta.example.com",
+  "gamma.demo.com"
+)
+def getUptime(hostname: String): Future[Int] =
+  Future(hostname.length * 60) // just for demonstration
+```
+We want to poll all of the hosts and collect all of their uptimes. `map` would create a `List[Future[Int]]`, we want a single `Future` though.
+Done manually using `.fold`:  
+```scala
+val allUptimes: Future[List[Int]] = hostnames.foldLeft(Future(List.empty[Int])) {
+    (accum, host) =>
+      val uptime = getUptime(host)
+      for {
+        accum  <- accum
+        uptime <- uptime
+      } yield accum :+ uptime
+}
+Await.result(allUptimes, 1.second)
+// res2: List[Int] = List(1020, 960, 840)
+```
+
+Much cleaner is:  
+```scala
+val allUptimes: Future[List[Int]] =
+  Future.traverse(hostnames)(getUptime)
+Await.result(allUptimes, 1.second)
+// res3: List[Int] = List(1020, 960, 840)
+```
+The definition is this:
+```scala
+def traverse[A, B](values: List[A])
+    (func: A => Future[B]): Future[List[B]] =
+values.foldLeft(Future(List.empty[A])) { (accum, host) => val item = func(host)
+for {
+      accum <- accum
+      item  <- item
+    } yield accum :+ item
+}
+```
+- start with a List[A];
+- provide a function A=>Future[B]; 
+- end up with a Future[List[B]].
+
+Future sequence is even easier:
+```scala
+object Future {
+def sequence[B](futures: List[Future[B]]): Future[List[B]] =
+    traverse(futures)(identity)
+// etc...
+}
+```
+Starts with a List[A] ends with a Future[List[A]]
+
+_Cats’ Traverse type class generalises these patterns to work with any type of Applicative: Future, Option, Validated, and so on._
+
+```scala
+Future(List.empty[Int])
+// is the same as
+import cats.Applicative
+import cats.instances.future._
+List.empty[Int].pure[Future]
+```
+Our combine function is now the same as:  
+```scala
+import cats.syntax.apply._ // for mapN
+// Combining accumulator and hostname using an Applicative:
+def newCombine(accum: Future[List[Int]], host: String): Future[List[Int]] =
+  (accum, getUptime(host)).mapN(_ :+ _)
+```
