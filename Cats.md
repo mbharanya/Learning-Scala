@@ -801,6 +801,7 @@ case class Cat(name: String, born: Int, color: String)
 ).mapN(Cat.apply)
 // res9: Option[Cat] = Some(Cat(Garfield,1978,Orange & black)
 ```
+N can also be substituted by the number of parameters (map3)
 
 ### Future
 _The semantics for Future provide parallel as opposed to sequential execution:_
