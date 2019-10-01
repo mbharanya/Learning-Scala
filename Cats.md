@@ -56,6 +56,12 @@ _Integer subtraction, for example, is not a monoid because subtraction is not as
 1 - (2 - 3)
 // res16: Int = 2
 ```
+Examples of Monoids:
+- Ints, with the zero being 0 and the operator being +.
+- Ints, with the zero being 1 and the operator being *.
+- Lists, with the zero being Nil and the operator being ++.
+- Strings, with the zero being "" and the operator being +.
+
 ## Definition of a Semigroup
 _A semigroup is just the combine part of a monoid._
 ```scala
@@ -102,7 +108,7 @@ func(123)
 // res10: String = 248.0!
 ```
 Calling `map` doesn't actually execute the code, it just chains the operations together. Only after supplying an argument to the generated function it gets executed.
-_We can think of this as lazily queueing up operatins similar to Future_
+_We can think of this as lazily queueing up operations similar to Future_
 
 _Formally, a functor is a type `F[A]` with an operation `map` with type `(A => B) => F[B]`_
 
@@ -308,6 +314,10 @@ trait Monad[F[_]] {
   }
 ```
 
+From https://itnext.io/benefits-of-identity-monad-in-scala-cats-a2cb0baef639:  
+
+In Monad[F[_]], F represents an “effect” or “computational context” like Future , Either or Option that allows applying a function (A => B or A => F[B]) to a single effectful value (A) without needing to “leave” that “effect” or “computational context” (F) and convert that value to desire effectful value (B).
+
 ## The Identity Monad
 This only works on Options and Lists.
 ```scala
@@ -347,6 +357,7 @@ object MonadicId extends App {
   println(flatMap(123)(_*2))
 }
 ```
+_Identity Monad allows us to write functions that work with monadic and non-monadic values and it is very powerful because we can wrap values into “effect” or “computational context” in production and remove them from “effect” or “computational context” for test using Identity Monad. For example, we can run code asynchronously in the production using the Future and synchronously in the test using the Identity Monad and easily switch between asynchronous and synchronous world._
 
 ## Either
 Since scala 2.12, `Either` is right-biased. flatMap will point to Right.  
@@ -948,4 +959,51 @@ import cats.syntax.apply._ // for mapN
 // Combining accumulator and hostname using an Applicative:
 def newCombine(accum: Future[List[Int]], host: String): Future[List[Int]] =
   (accum, getUptime(host)).mapN(_ :+ _)
+```
+
+## Kleisli
+Kleisli enables composition of functions that return a monadic value.
+One of the best properties of functions is that they compose:  
+given a function `A => B` and a function `B => C`, we can combine them to create a new function `A => C`
+```scala
+val twice: Int => Int =
+  x => x * 2
+
+val countCats: Int => String =
+  x => if (x == 1) "1 cat" else s"$x cats"
+
+val twiceAsManyCats: Int => String =
+  twice andThen countCats // equivalent to: countCats compose twice
+```
+
+Sometimes, our functions will need to return monadic values. For instance, consider the following set of functions.
+```scala
+val parse: String => Option[Int] =
+  s => if (s.matches("-?[0-9]+")) Some(s.toInt) else None
+
+val reciprocal: Int => Option[Double] =
+  i => if (i != 0) Some(1.0 / i) else None
+```
+Here we can't use `compose` or `andThen`, so we need to use Kleisli:
+`Kleisli[F[_], A, B]` is just a wrapper around the function `A => F[B]`
+```scala
+import cats.FlatMap
+import cats.implicits._
+
+final case class Kleisli[F[_], A, B](run: A => F[B]) {
+  def compose[Z](k: Kleisli[F, Z, A])(implicit F: FlatMap[F]): Kleisli[F, Z, B] =
+    Kleisli[F, Z, B](z => k.run(z).flatMap(run))
+}
+
+// Bring in cats.FlatMap[Option] instance
+import cats.implicits._
+
+val parse: Kleisli[Option,String,Int] =
+  Kleisli((s: String) => if (s.matches("-?[0-9]+")) Some(s.toInt) else None)
+
+val reciprocal: Kleisli[Option,Int,Double] =
+  Kleisli((i: Int) => if (i != 0) Some(1.0 / i) else None)
+
+val parseAndReciprocal: Kleisli[Option,String,Double] =
+  reciprocal.compose(parse)
 ```

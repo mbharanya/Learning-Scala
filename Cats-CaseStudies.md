@@ -1,6 +1,6 @@
 # Case Studies
 ## Testing Asynchronous Code
-(cats/src/Ch8TestingAsyncCode.scala)[Exercise using the Id type]
+[Exercise using the Id type](cats/src/Ch8TestingAsyncCode.scala)
 
 I first made an error defining the type twice:
 ```scala
@@ -34,3 +34,6 @@ The book suggest this:
     iterable.foldLeft(Monoid[B].empty)(_ |+| _)
 }
 ```
+[Exercise](cats/src/Ch9FoldMap.scala)
+
+## Case Study: Data Validation

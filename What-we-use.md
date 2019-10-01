@@ -1,6 +1,7 @@
 # Type Classes
 # Readers & Writers
 # Monads
+## Identity Monad
 # Monad Transformers
 I just stumbled about the issue that EitherT is not covariant.
 I started out by converting our errors from `String` to a nicer Error type (we did String matching before, to check the type of the error):
