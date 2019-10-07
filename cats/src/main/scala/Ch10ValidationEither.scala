@@ -4,7 +4,7 @@ import cats.syntax.either._ // for asLeft and asRight
 import cats.syntax.semigroup._ // for |+|
 
 
-object Ch10Validation extends App {
+object Ch10ValidationEither extends App {
 
   final case class CheckF[E, A](func: A => Either[E, A]) {
     def apply(a: A): Either[E, A] =
