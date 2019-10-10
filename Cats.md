@@ -962,6 +962,9 @@ def newCombine(accum: Future[List[Int]], host: String): Future[List[Int]] =
 ```
 
 ## Kleisli
+The abstract concept of composing functions of type A => F[B] has a name: a Kleisli.
+Kleisli is just another name for ReaderT
+
 Kleisli enables composition of functions that return a monadic value.
 One of the best properties of functions is that they compose:  
 given a function `A => B` and a function `B => C`, we can combine them to create a new function `A => C`
@@ -1007,3 +1010,4 @@ val reciprocal: Kleisli[Option,Int,Double] =
 val parseAndReciprocal: Kleisli[Option,String,Double] =
   reciprocal.compose(parse)
 ```
+

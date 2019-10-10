@@ -176,7 +176,7 @@ implicitly[Example]
  implicitly[Example] == implicitExample
 // res: Boolean = true
 ```
-_The implicitly method takes no parameters but has a generic type parameters. It returns the implicit match- ing the given type, assuming there is no ambiguity._
+_The implicitly method takes no parameters but has a generic type parameters. It returns the implicit matching the given type, assuming there is no ambiguity._
 
 Real world example:
 ```scala

@@ -39,9 +39,16 @@ object Ch10ValidationCombinators extends App {
     def flatMap[C](f: B => Check[E, A, C]) =
       FlatMap[E, A, B, C](this, f)
 
-    def andThen[C](that: Check[E, B, C]): Check[E, A, C]
+    def andThen[C](that: Check[E, B, C]): Check[E, A, C] =
+      AndThen[E, A, B, C](this, that)
   }
 
+
+  final case class AndThen[E, A, B, C](
+                                        check1: Check[E, A, B],
+                                        check2: Check[E, B, C]) extends Check[E, A, C] {
+    def apply(a: A)(implicit s: Semigroup[E]): Validated[E, C] = check1(a).withEither(_.flatMap(b => check2(b).toEither))
+  }
 
   final case class FlatMap[E, A, B, C](check: Check[E, A, B], func: B => Check[E, A, C]) extends Check[E, A, C] {
     def apply(a: A)(implicit s: Semigroup[E]): Validated[E, C] = check(a).withEither(_.flatMap(b => func(b)(a).toEither))
