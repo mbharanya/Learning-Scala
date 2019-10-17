@@ -95,9 +95,9 @@ val intResult = 1 |+| 2 |+| Monoid[Int].empty
 ```
 
 # Functors
-_Informally, a functor is anything with a map method._
-single argument functions are also functors
-function composition is sequencing
+_Informally, a functor is anything with a map method._  
+single argument functions are also functors  
+function composition is sequencing  
 ```scala
 val func =
   ((x: Int) => x.toDouble).
@@ -121,7 +121,7 @@ trait Functor[F[_]] {
 }
 ```
 
-Functors Laws:
+Functors Laws:  
 Identity: calling map with the identity function is the same as doing nothing:
 ```scala
  fa.map(a => a) == fa
@@ -270,7 +270,7 @@ implicit val booleanCodec: Codec[Boolean] =
 
 # Monads
 _a monad is anything with a constructor and a flatMap method._  
-_A monad is a mechanism for sequencing computations._ 
+_A monad is a mechanism for sequencing computations._  
 _Every monad is also a functor (see below for proof), so we can rely on both flatMap and map to sequence computations that do and don’t introduce a new monad. Plus, if we have both flatMap and map we can use for comprehensions to clarify the sequencing behaviour:_
 ```scala
 def stringDivideBy(aStr: String, bStr: String): Option[Int] = for {
@@ -290,11 +290,11 @@ trait Monad[F[_]] {
 ```
 
 Laws that must be obeyed:
-_Left identity: calling pure and transforming the result with func is the same as calling func:_
+_Left identity: calling pure and transforming the result with func is the same as calling func:_  
 ```scala
 pure(a).flatMap(func) == func(a)
 ```
-_Right identity: passing pure to flatMap is the same as doing nothing:_
+_Right identity: passing pure to flatMap is the same as doing nothing:_  
 ```scala
 m.flatMap(pure) == m
 ```
@@ -316,7 +316,7 @@ trait Monad[F[_]] {
 
 From https://itnext.io/benefits-of-identity-monad-in-scala-cats-a2cb0baef639:  
 
-In Monad[F[_]], F represents an “effect” or “computational context” like Future , Either or Option that allows applying a function (A => B or A => F[B]) to a single effectful value (A) without needing to “leave” that “effect” or “computational context” (F) and convert that value to desire effectful value (B).
+In `Monad[F[_]]`, `F` represents an "effect" or "computational context" like `Future`, `Either` or `Option` that allows applying a function `(A => B or A => F[B])` to a single effectful value (`A`) without needing to "leave" that "effect" or "computational context" (`F`) and convert that value to desire effectful value (`B`).
 
 ## The Identity Monad
 This only works on Options and Lists.
@@ -357,7 +357,7 @@ object MonadicId extends App {
   println(flatMap(123)(_*2))
 }
 ```
-_Identity Monad allows us to write functions that work with monadic and non-monadic values and it is very powerful because we can wrap values into “effect” or “computational context” in production and remove them from “effect” or “computational context” for test using Identity Monad. For example, we can run code asynchronously in the production using the Future and synchronously in the test using the Identity Monad and easily switch between asynchronous and synchronous world._
+_Identity Monad allows us to write functions that work with monadic and non-monadic values and it is very powerful because we can wrap values into "effect" or "computational context" in production and remove them from "effect" or "computational context" for test using Identity Monad. For example, we can run code asynchronously in the production using the Future and synchronously in the test using the Identity Monad and easily switch between asynchronous and synchronous world._
 
 ## Either
 Since scala 2.12, `Either` is right-biased. flatMap will point to Right.  
@@ -478,7 +478,7 @@ saying.value // second access
 // Step 3
 // res19: String = The cat sat on the mat
 ```
-_One useful property of Eval is that its map and flatMap methods are trampolined. This means we can nest calls to map and flatMap arbitrarily without consuming stack frames. We call this property “stack safety”._ 
+_One useful property of Eval is that its map and flatMap methods are trampolined. This means we can nest calls to map and flatMap arbitrarily without consuming stack frames. We call this property "stack safety"._ 
 Example:
 ```scala
 def factorial(n: BigInt): BigInt =
