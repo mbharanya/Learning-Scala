@@ -66,3 +66,9 @@ From this we can see that
 - total requires a commutative monoid; and
 - merge required an idempotent commutative monoid, also called a
 bounded semilatice.
+
+Exercises:
+- [./cats/src/main/scala/Ch11CRDTInt.scala](./cats/src/main/scala/Ch11CRDTInt.scala)
+- [./cats/src/main/scala/Ch11CRDTMonoid.scala](./cats/src/main/scala/Ch11CRDTMonoid.scala)
+- [./cats/src/main/scala/Ch11CRDTBoundedSemiLattice.scala](./cats/src/main/scala/Ch11CRDTBoundedSemiLattice.scala)
+- [./cats/src/main/scala/Ch11CRDTAbstractKeyValue.scala](./cats/src/main/scala/Ch11CRDTAbstractKeyValue.scala)
