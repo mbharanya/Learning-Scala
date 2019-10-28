@@ -2,11 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6750711c-d242-4ac0-8cdc-17b3aa32e881" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/scala/Ch11CRDTAbstractKeyValue.scala" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/scala/Ch11CRDTBoundedSemiLattice.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Cats.md" beforeDir="false" afterPath="$PROJECT_DIR$/../Cats.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../What-we-use.md" beforeDir="false" afterPath="$PROJECT_DIR$/../What-we-use.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/scala/Ch10ValidationCombinators.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/Ch10ValidationCombinators.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/scala/Ch11CRDTMonoid.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/Ch11CRDTMonoid.scala" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -40,8 +38,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/scala/Ch10ValidationCombinators.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="780">
-              <caret line="52" column="56" lean-forward="true" selection-start-line="52" selection-start-column="56" selection-end-line="52" selection-end-column="56" />
+            <state relative-caret-position="735">
+              <caret line="52" column="56" selection-start-line="52" selection-start-column="56" selection-end-line="52" selection-end-column="56" />
               <folding>
                 <element signature="e#0#32#0" expanded="true" />
               </folding>
@@ -94,7 +92,7 @@
         <entry file="file://$PROJECT_DIR$/src/main/scala/Ch11CRDTBoundedSemiLattice.scala">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="150">
-              <caret line="14" lean-forward="true" selection-start-line="14" selection-end-line="28" />
+              <caret line="14" selection-start-line="14" selection-end-line="28" />
             </state>
           </provider>
         </entry>
@@ -102,8 +100,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/scala/Ch11CRDTMonoid.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="538">
-              <caret line="50" lean-forward="true" selection-start-line="50" selection-end-line="50" />
+            <state relative-caret-position="675">
+              <caret line="50" selection-start-line="50" selection-end-line="50" />
               <folding>
                 <element signature="e#0#52#0" expanded="true" />
               </folding>
@@ -114,8 +112,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/scala/Ch11CRDTAbstractKeyValue.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1064">
-              <caret line="93" column="25" lean-forward="true" selection-start-line="93" selection-start-column="25" selection-end-line="93" selection-end-column="25" />
+            <state relative-caret-position="640">
+              <caret line="80" column="37" selection-start-line="80" selection-start-column="37" selection-end-line="81" selection-end-column="54" />
             </state>
           </provider>
         </entry>
@@ -171,6 +169,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="PackagesPane" />
       <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
@@ -205,7 +204,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -318,9 +316,9 @@
       <item itemvalue="Application.Ch10Validation" />
       <item itemvalue="Application.Ch9FoldMap" />
       <item itemvalue="Application.Ch10ValidationCombinators" />
-      <item itemvalue="sbt Task.run" />
       <item itemvalue="Application.Ch11CRDTMonoid" />
       <item itemvalue="Application.Ch11CRDTAbstractKeyValue" />
+      <item itemvalue="sbt Task.run" />
     </list>
     <recent_temporary>
       <list>
@@ -410,17 +408,19 @@
       <workItem from="1570607947977" duration="591000" />
       <workItem from="1571214335360" duration="3539000" />
       <workItem from="1571299529619" duration="1799000" />
+      <workItem from="1571388205377" duration="2989000" />
+      <workItem from="1572256056291" duration="488000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="66613000" />
+    <option name="totallyTimeSpent" value="70090000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1440" y="-517" width="1776" height="1417" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.21280277" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.21741638" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="Image Layers" order="3" />
@@ -745,6 +745,16 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/Ch10ValidationCombinators.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="735">
+          <caret line="52" column="56" selection-start-line="52" selection-start-column="56" selection-end-line="52" selection-end-column="56" />
+          <folding>
+            <element signature="e#0#32#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="jar://$USER_HOME$/.ivy2/cache/org.scala-lang/scala-library/srcs/scala-library-2.12.8-sources.jar!/scala/Predef.scala">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2025">
@@ -754,6 +764,13 @@
     </entry>
     <entry file="jar://$USER_HOME$/.ivy2/cache/org.typelevel/cats-core_2.12/srcs/cats-core_2.12-1.6.0-sources.jar!/cats/FlatMap.scala">
       <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/Ch11CRDTInt.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" selection-start-line="2" selection-end-line="16" />
+        </state>
+      </provider>
     </entry>
     <entry file="jar://$USER_HOME$/.ivy2/cache/org.scala-lang/scala-library/srcs/scala-library-2.12.8-sources.jar!/scala/collection/SetLike.scala">
       <provider selected="true" editor-type-id="text-editor">
@@ -769,34 +786,17 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/scala/Ch11CRDTInt.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="2" selection-start-line="2" selection-end-line="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/scala/Ch10ValidationCombinators.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="780">
-          <caret line="52" column="56" lean-forward="true" selection-start-line="52" selection-start-column="56" selection-end-line="52" selection-end-column="56" />
-          <folding>
-            <element signature="e#0#32#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/scala/Ch11CRDTBoundedSemiLattice.scala">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="150">
-          <caret line="14" lean-forward="true" selection-start-line="14" selection-end-line="28" />
+          <caret line="14" selection-start-line="14" selection-end-line="28" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/scala/Ch11CRDTMonoid.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="538">
-          <caret line="50" lean-forward="true" selection-start-line="50" selection-end-line="50" />
+        <state relative-caret-position="675">
+          <caret line="50" selection-start-line="50" selection-end-line="50" />
           <folding>
             <element signature="e#0#52#0" expanded="true" />
           </folding>
@@ -805,8 +805,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/scala/Ch11CRDTAbstractKeyValue.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1064">
-          <caret line="93" column="25" lean-forward="true" selection-start-line="93" selection-start-column="25" selection-end-line="93" selection-end-column="25" />
+        <state relative-caret-position="640">
+          <caret line="80" column="37" selection-start-line="80" selection-start-column="37" selection-end-line="81" selection-end-column="54" />
         </state>
       </provider>
     </entry>

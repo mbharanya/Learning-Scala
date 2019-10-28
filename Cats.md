@@ -494,7 +494,7 @@ def factorial(n: BigInt): BigInt =
    }
  factorial(50000).value
 ```
-_ we must bear in mind that trampolining is not free. It avoids consuming stack by creating a chain of function objects on the heap. There are still limits on how deeply we can nest computations, but they are bounded by the size of the heap rather than the stack._
+_we must bear in mind that trampolining is not free. It avoids consuming stack by creating a chain of function objects on the heap. There are still limits on how deeply we can nest computations, but they are bounded by the size of the heap rather than the stack._
 ## The Reader Monad
 Used to sequence operations that depend on some input. 
 ```scala
@@ -772,6 +772,7 @@ _The applicative version (using Scalaz) looks like this:_
 val maybeFoo = (maybeComputeS(whatever) |@| maybeComputeN(whatever))(Foo(_, _))
 ```
 This means that there is no dependency between the two computations
+https://stackoverflow.com/questions/19880207/when-and-why-should-one-use-applicative-functors-in-scala/19882450
 
 ## Semigroupal
 _If we have two objects of type `F[A]` and `F[B]`, a `Semigroupal[F]` allows us to
