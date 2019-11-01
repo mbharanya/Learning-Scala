@@ -59,3 +59,5 @@ _Methods may define multiple parameter lists. When a method is called with a few
 
 - `case object`  
   is a singleton, no constructor, can be used for pattern matching
+
+https://youtu.be/m40YOZr1nxQ
