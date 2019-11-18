@@ -1,3 +1,14 @@
+# Index
+- Type Classes
+- Monads
+- Monad Transformers
+- Applicatives
+- Monoids
+- Kleislis
+- ADTs
+
+
+
 # Type Classes
 ## Type Class Pattern
 _A type class is a trait with at least one type variable. The type variables specify the concrete types the type class instances are defined for. Methods in the trait usually use the type variables._
