@@ -13,11 +13,11 @@ The notes are meant as a learning aid for me and maybe as a cheat sheet for my f
 
 
 ![](https://underscore.io/images/books/scala-with-cats.png)  
-[Scala with Cats](Cats.md)
-[Case Studies with Cats](Cats-CaseStudies.md)
+[Scala with Cats](Cats.md)  
+[Case Studies with Cats](Cats-CaseStudies.md)  
 
-[Presentation](Presentation.md)
-[Presentation HTML](presentation/Presentation.html)
+[Presentation](Presentation.md)  
+[Presentation HTML](presentation/Presentation.html)  
 
-[Miscellaneous Scala related topics](Misc.md)
+[Miscellaneous Scala related topics](Misc.md)  
 [What I use at my workplace](What-we-use.md)
