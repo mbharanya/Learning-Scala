@@ -39,16 +39,57 @@ java.util.UUID.randomUUID().show
 
 ---
 
-# Monads
+![bg fit](https://static.existentialcomics.com/comics/other/monadsForDinner.jpg)
+
 ---
-## Identity Monad
-- Write functions that combine Monadic & Non-Monadic values
-- Switch between async / sync for testing
-    - Prod: `Future[String]`
-    - Test: `Id[String]`
+# Monads
+- anything with a constructor and a `flatMap` method
+- mechanism for sequencing computations
+![](http://adit.io/imgs/functors/monad_nothing.png)
+---
+## Benefits of Monadic Design
+- Avoid boilerplate code
+  - `Option`
+- Seperation of concern
+  - `Option` handles 'coping mechanism' 
+
+- Every monad is also a functor 
+  - rely on both `flatMap` and `map` to sequence computations
+- `for` comprehensions
+
+--- 
+```scala
+trait Monad[F[_]] {
+  def pure[A](a: A): F[A] // wrap it
+
+  def flatMap[A, B](value: F[A])(func: A => F[B]): F[B] // from monadic with a non-monadic value
+
+  def map[A, B](value: F[A])(func: A => B): F[B] =
+    flatMap(value)(a => pure(func(a))) // from monadid
+}
+```
+![50% center](https://1.bp.blogspot.com/-f5T38j9evCk/VZ54cIBwUeI/AAAAAAAABLY/3bvMZaQ4HCY/s640/nzfiq.jpg)
+
 ---
 
+## Cool Monads from scalaz
+- `State`
+  - TODO
+- `Undo`
+  - [supporting undo , redo and hput to push the last state on history](http://hackage.haskell.org/package/Hedi-0.1.1/docs/Undo.html)
+- `Id`
+  - Write functions that combine Monadic & Non-Monadic values
+  - Switch between async / sync for testing
+      - Prod: `Future[String]`
+      - Test: `Id[String]`
+---
 # Monad Transformers
+- Avoid nested for comprehensions
+- Compose `Option` `Future`
+- Confusion on how `liftM` works
+  - TODO example here
+---
+# Semigroups & Applicatives
 
 ---
 

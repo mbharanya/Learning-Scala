@@ -289,7 +289,8 @@ trait Monad[F[_]] {
 }
 ```
 
-Laws that must be obeyed:
+Laws that must be obeyed:  
+
 _Left identity: calling pure and transforming the result with func is the same as calling func:_  
 ```scala
 pure(a).flatMap(func) == func(a)
