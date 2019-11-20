@@ -3,7 +3,6 @@ marp: true
 title: Findings, Interesting Topics About FP & Scala with Cats
 theme: default
 class:
-  - lead
   - invert
 paginate: true
 size: 4K
@@ -126,5 +125,75 @@ object KleisliTest extends App {
   val unpacked: Unit => Future[Boolean] = kleisliCombo.run
 
   unpacked().map(println)
+}
+```
+---
+# Algebraic Data Types
+- A sum type consisting of various subtypes of other sum and product types.
+- Analyze values of algebraic data with pattern matching.
+---
+## Product Type
+```scala
+case class Student(enrolled: Boolean, age: Byte)
+// Students consists of a Boolean AND Byte
+// 2 * 256 = 258
+```
+--- 
+## Sum Type
+```scala
+sealed trait Color 
+case object Red extends Color
+case object Blue extends Color
+case object Green extends Color
+// Color can be Red OR Blue OR Green
+// 1 + 1 + 1 = 3 distinct possible values
+```
+--- 
+# Example
+![bg 70% right](https://upload.wikimedia.org/wikipedia/commons/f/f4/Florida_Box_Turtle_Digon3_re-edited.jpg)
+- Either
+  - move forward X meters
+  - rotate Y degrees
+--- 
+## Naive implemenation:
+```scala
+final case class Command(label: String, meters: Option[Int], degrees: Option[Int])
+```
+What are the issues?
+
+---
+
+## Hybrid type
+![bg opacity:0.6](https://www.toyota.com/imgix/responsive/images/mlp/colorizer/2020/prius/8X7/1.png?bg=fff&fm=webp)
+```scala
+sealed trait Option[+A]  
+case object None extends Option[Nothing] 
+case class Some[A](a: A) extends Option[A]
+type TwoBooleansOrNone = Option[(Boolean, Boolean)]
+// BooleanOrNone can be None OR Some(Boolean AND Boolean)
+// 1 + (2 * 2) = 5 distinct possible values
+```
+---
+## Illegal states
+```scala
+Command("foo", None, None)
+Command("bar", Some(1), Some(2))
+```
+--- 
+## Reworked
+```scala
+sealed abstract class Command extends Product with Serializable
+
+object Command {
+  final case class Move(meters: Int) extends Command
+  final case class Rotate(degrees: Int) extends Command
+}
+```
+---
+## Bonus: Pattern Matching
+```scala
+def print(cmd: Command) = cmd match {
+  case Command.Move(dist)    => println(s"Moving by ${dist}m")
+  case Command.Rotate(angle) => println(s"Rotating by ${angle}°")
 }
 ```
