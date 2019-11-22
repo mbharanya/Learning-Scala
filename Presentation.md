@@ -21,6 +21,23 @@ auto-scaling: code
 - ADTs
 ---
 
+# Terminology
+TODO
+- Pure
+  - `A => B`
+- Effectful
+  - `F[A] => F[B]`
+
+  https://alvinalexander.com/scala/what-effects-effectful-mean-in-functional-programming
+
+effectful == monadic
+
+when a function returns an A, that A has already been fully evaluated; but if that function returns F[A] instead, that result has not already been fully evaluated, the A is still inside F[A] waiting to be evaluated
+
+Option models the effect of optionality
+Future models latency as an effect
+Try abstracts the effect of failures (manages exceptions as effects)
+
 # Type Classes
 ```scala
 trait Showable[A] {
@@ -88,7 +105,46 @@ trait Monad[F[_]] {
 - Confusion on how `liftM` works
   - TODO example here
 ---
-# Semigroups & Applicatives
+
+# Functor
+- anything with a `.map` method
+- single argument functions are also functors  
+---
+- Can be composed (first do this, then that)
+```scala
+val listOption = List(Some(1), None, Some(2))
+// listOption: List[Option[Int]] = List(Some(1), None, Some(2))
+
+// Through Functor#compose
+Functor[List].compose[Option].map(listOption)(_ + 1)
+// res1: List[Option[Int]] = List(Some(2), None, Some(3))
+```
+---
+- Laws:
+  - Composition: `fa.map(f).map(g)` is `fa.map(f.andThen(g))`
+  - Identity: Mapping with the identity function is a no-op
+    `fa.map(x => x) = fa`
+- Allow lifting pure to effectful function
+  ```scala
+   def lift[A, B](f: A => B): F[A] => F[B] = fa => map(fa)(f)
+  ```
+
+---
+
+```scala
+// Example implementation for Option
+implicit val functorForOption: Functor[Option] = new Functor[Option] {
+  def map[A, B](fa: Option[A])(f: A => B): Option[B] = fa match {
+    case None    => None
+    case Some(a) => Some(f(a))
+  }
+}
+```
+---
+
+# Applicatives
+- Applicative extends `Functor` with an `ap` and `pure` method.
+- avoid making unnecessary claims about dependencies between computations
 
 ---
 
