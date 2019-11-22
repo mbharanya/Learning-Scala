@@ -1,5 +1,5 @@
 ---
-marp: true
+marp: false
 title: Findings, Interesting Topics About FP & Scala with Cats
 theme: default
 class:
@@ -144,7 +144,21 @@ implicit val functorForOption: Functor[Option] = new Functor[Option] {
 
 # Applicatives
 - Applicative extends `Functor` with an `ap` and `pure` method.
+- Wrap functions in Contexts!
+- mapN to apply for different airities
 - avoid making unnecessary claims about dependencies between computations
+```scala
+import cats.implicits._
+
+val f: (Int, Char) => Double = (i, c) => (i + c).toDouble
+
+val int: Option[Int] = Some(5)
+val char: Option[Char] = Some('a')
+int.map(i => (c: Char) => f(i, c)) // what now?
+```
+- `ap` unpacks both Monads, and then applies the function to the value:
+![](https://files.slack.com/files-pri/T028396QP-FQVF69EQY/applicative_just.png)
+
 
 ---
 
