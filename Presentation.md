@@ -1,5 +1,5 @@
 ---
-marp: false
+marp: true
 title: Findings, Interesting Topics About FP & Scala with Cats
 theme: default
 class:
@@ -22,21 +22,16 @@ auto-scaling: code
 ---
 
 # Terminology
-TODO
 - Pure
   - `A => B`
-- Effectful
+- Effectful == monadic
   - `F[A] => F[B]`
-
-  https://alvinalexander.com/scala/what-effects-effectful-mean-in-functional-programming
-
-effectful == monadic
-
-when a function returns an A, that A has already been fully evaluated; but if that function returns F[A] instead, that result has not already been fully evaluated, the A is still inside F[A] waiting to be evaluated
-
-Option models the effect of optionality
-Future models latency as an effect
-Try abstracts the effect of failures (manages exceptions as effects)
+  - Option models the effect of optionality
+  - Future models latency as an effect
+  - Try abstracts the effect of failures (manages exceptions as effects)
+- https://alvinalexander.com/scala/what-effects-effectful-mean-in-functional-programming
+  <!--  _when a function returns an A, that A has already been fully evaluated; but if that function returns F[A] instead, that result has not already been fully evaluated, the A is still inside F[A] waiting to be evaluated_ -->
+---
 
 # Type Classes
 ```scala
@@ -90,7 +85,7 @@ trait Monad[F[_]] {
 
 ## Cool Monads from scalaz
 - `State`
-  - TODO
+  - TODO more research
 - `Undo`
   - [supporting undo , redo and hput to push the last state on history](http://hackage.haskell.org/package/Hedi-0.1.1/docs/Undo.html)
 - `Id`
@@ -160,6 +155,23 @@ int.map(i => (c: Char) => f(i, c)) // what now?
 ![](https://files.slack.com/files-pri/T028396QP-FQVF69EQY/applicative_just.png)
 
 
+---
+
+# Monoids
+```scala
+trait Monoid[A] {
+  def combine(x: A, y: A): A
+  def empty: A
+}
+```
+Examples of Monoids:
+- Ints, with the zero being 0 and the operator being +.
+- Ints, with the zero being 1 and the operator being *.
+- Lists, with the zero being Nil and the operator being ++.
+- Strings, with the zero being "" and the operator being +.
+
+## Semigroup
+- Just the combine part of the Monoid
 ---
 
 # Kleisli

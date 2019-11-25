@@ -61,3 +61,7 @@ _Methods may define multiple parameter lists. When a method is called with a few
   is a singleton, no constructor, can be used for pattern matching
 
 https://youtu.be/m40YOZr1nxQ
+
+# Selective Functions
+Figure out which effects a program will have via the type system.
+https://youtu.be/gs7MNm6YMX4
