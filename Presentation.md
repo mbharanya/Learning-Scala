@@ -8,23 +8,33 @@ paginate: true
 size: 4K
 auto-scaling: code
 ---
-# Findings, Interesting Topics About FP & Scala with :cat2:
+# Findings, Interesting Topics About FP & Scala with :cat2::cat:
+![](#FFF)
+![bg 50% right:25%](https://cdn.freebiesupply.com/logos/large/2x/scala-4-logo-png-transparent.png)
+
 ---
 
 # Content
+- Terminology
 - Type Classes
 - Monads
 - Monad Transformers
+- Functors
 - Applicatives
 - Monoids
 - Kleislis
 - ADTs
+<!--
+- I'm not an expert
+- Start discussion
+- Scratching the surface
+-->
 ---
 
 # Terminology
 - Pure
   - `A => B`
-- Effectful == monadic
+- Effectful == monadic (Sometimes called context as well)
   - `F[A] => F[B]`
   - Option models the effect of optionality
   - Future models latency as an effect
@@ -73,10 +83,12 @@ java.util.UUID.randomUUID().show
 trait Monad[F[_]] {
   def pure[A](a: A): F[A] // wrap it
 
-  def flatMap[A, B](value: F[A])(func: A => F[B]): F[B] // from monadic with a non-monadic value
+  def flatMap[A, B](value: F[A])(func: A => F[B]): F[B]
+  // apply a transformation function to a monadic value
 
   def map[A, B](value: F[A])(func: A => B): F[B] =
-    flatMap(value)(a => pure(func(a))) // from monadid
+    flatMap(value)(a => pure(func(a)))
+    // apply a non-monadic function to a monadic value
 }
 ```
 ![50% center](https://1.bp.blogspot.com/-f5T38j9evCk/VZ54cIBwUeI/AAAAAAAABLY/3bvMZaQ4HCY/s640/nzfiq.jpg)
@@ -84,28 +96,49 @@ trait Monad[F[_]] {
 ---
 
 ## Cool Monads from scalaz
-- `State`
-  - TODO more research
-- `Undo`
-  - [supporting undo , redo and hput to push the last state on history](http://hackage.haskell.org/package/Hedi-0.1.1/docs/Undo.html)
 - `Id`
   - Write functions that combine Monadic & Non-Monadic values
   - Switch between async / sync for testing
       - Prod: `Future[String]`
       - Test: `Id[String]`
+- `State`
+  - dealing stateful problems, while still keeping everything nice and pure
+- `Undo`
+  - [supporting undo , redo and hput to push the last state on history](http://hackage.haskell.org/package/Hedi-0.1.1/docs/Undo.html)
 ---
 # Monad Transformers
 - Avoid nested for comprehensions
-- Compose `Option` `Future`
+- Compose `Option` `Future` -> `OptionT[Future,  A]`
 - Confusion on how `liftM` works
-  - TODO example here
+  - lift a value of `Future[Option[A]]` into an `OptionT[Future, A]`
+Before:
+```scala
+  { maybeUser: Option[Duser3] =>
+      val optionTshi = (for {
+        user  <- maybeUser.liftM[OptionT]
+        referralCode <-  OptionT.some(referralService.getOrCreateUserReferralCode(user))
+      } yield referralCode)
+​    }
+```
+---
+
+  After:
+  ```scala
+  {
+      maybeUser: Option[Duser3] =>
+        (for {
+          user  <- OptionT(Future.value(maybeUser))
+          referralCode <-  referralService.getOrCreateUserReferralCode(user).liftM[OptionT]
+        } yield referralCode).run.void
+    }
+  ```
 ---
 
 # Functor
 - anything with a `.map` method
 - single argument functions are also functors  
----
 - Can be composed (first do this, then that)
+---
 ```scala
 val listOption = List(Some(1), None, Some(2))
 // listOption: List[Option[Int]] = List(Some(1), None, Some(2))
@@ -140,21 +173,43 @@ implicit val functorForOption: Functor[Option] = new Functor[Option] {
 # Applicatives
 - Applicative extends `Functor` with an `ap` and `pure` method.
 - Wrap functions in Contexts!
-- mapN to apply for different airities
+- mapN to apply for different arities
 - avoid making unnecessary claims about dependencies between computations
-```scala
-import cats.implicits._
-
-val f: (Int, Char) => Double = (i, c) => (i + c).toDouble
-
-val int: Option[Int] = Some(5)
-val char: Option[Char] = Some('a')
-int.map(i => (c: Char) => f(i, c)) // what now?
-```
+  - using `|@|`
 - `ap` unpacks both Monads, and then applies the function to the value:
-![](https://files.slack.com/files-pri/T028396QP-FQVF69EQY/applicative_just.png)
+![](http://adit.io/imgs/functors/applicative_just.png)
 
+---
+```scala
+case class Foo(s: Symbol, n: Int)
 
+val maybeFoo = for {
+  s <- maybeComputeS(whatever)
+  n <- maybeComputeN(whatever)
+} yield Foo(s, n)
+```
+⬇️
+```scala
+val maybeFoo = maybeComputeS(whatever).flatMap(
+  s => maybeComputeN(whatever).map(n => Foo(s, n))
+)
+```
+`maybeComputeN` never depends on `s`, compiler still thinks so
+```scala
+val maybeFoo = (maybeComputeS(whatever) |@| maybeComputeN(whatever))(Foo(_, _))
+```
+---
+```scala
+val url = new URL(urlStr)
+(S3Bucket(url) |@| S3Key(url)) { (bucket, key) =>
+  if (bucket == store.bucket) {
+    key.some
+  } else {
+    warn(s"can not delete a resource $url from unknown bucket: $bucket")
+    none
+  }
+}.flatten.toList
+```
 ---
 
 # Monoids
@@ -165,14 +220,41 @@ trait Monoid[A] {
 }
 ```
 Examples of Monoids:
-- Ints, with the zero being 0 and the operator being +.
-- Ints, with the zero being 1 and the operator being *.
-- Lists, with the zero being Nil and the operator being ++.
-- Strings, with the zero being "" and the operator being +.
+- `Int`s, with the zero being `0` and the operator being `+`.
+- `Int`s, with the zero being `1` and the operator being `*`.
+- `List`s, with the zero being `Nil` and the operator being `++`.
+- `String`s, with the zero being `""` and the operator being `+`.
 
-## Semigroup
-- Just the combine part of the Monoid
----
+- Q: give me some `A` for which I have a monoid
+
+--- 
+
+## Usage
+```scala
+trait TotalInstances {
+
+  implicit def totalMonoid(implicit targetCcy: Currency, mc: MoneyContext): Monoid[Total] =
+    Monoid.instance[Total]({ (a, b) =>
+      a + b
+    }, zero)
+
+  def zero(implicit targetCcy: Currency, mc: MoneyContext): Total = {
+    val zeroCurrency = targetCcy.apply(0).toResponse
+    Total(
+      total = zeroCurrency,
+      product = zeroCurrency,
+      realProduct = zeroCurrency,
+      duties = None,
+      insurance = None,
+      returns = None,
+      shipping = zeroCurrency,
+      taxes = None,
+      discount = None
+    )
+  }
+}
+```
+--- 
 
 # Kleisli
 ```scala
@@ -244,23 +326,12 @@ final case class Command(label: String, meters: Option[Int], degrees: Option[Int
 What are the issues?
 
 ---
-
-## Hybrid type
-![bg opacity:0.6](https://www.toyota.com/imgix/responsive/images/mlp/colorizer/2020/prius/8X7/1.png?bg=fff&fm=webp)
-```scala
-sealed trait Option[+A]  
-case object None extends Option[Nothing] 
-case class Some[A](a: A) extends Option[A]
-type TwoBooleansOrNone = Option[(Boolean, Boolean)]
-// BooleanOrNone can be None OR Some(Boolean AND Boolean)
-// 1 + (2 * 2) = 5 distinct possible values
-```
----
 ## Illegal states
 ```scala
 Command("foo", None, None)
 Command("bar", Some(1), Some(2))
 ```
+
 --- 
 ## Reworked
 ```scala
@@ -279,3 +350,9 @@ def print(cmd: Command) = cmd match {
   case Command.Rotate(angle) => println(s"Rotating by ${angle}°")
 }
 ```
+----
+# Thanks!
+- Presentation was generated using Marp https://yhatt.github.io/marp/
+![bg 50% right](https://marp.app/assets/marp-logo.svg)
+- Available online: https://mbharanya.github.io/Learning-Scala/presentation/Presentation.html
+- Discussion
