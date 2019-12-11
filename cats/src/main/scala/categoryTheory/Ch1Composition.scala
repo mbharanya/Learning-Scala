@@ -1,6 +1,6 @@
 package categoryTheory
 
-object Composition extends App {
+object Ch1Composition extends App {
   def identity[A](a: A) = a
 
   def compose[A, B, C](f1: A => B, f2: B => C) = f1.andThen(f2)

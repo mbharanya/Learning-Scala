@@ -2,7 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6750711c-d242-4ac0-8cdc-17b3aa32e881" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/scala/categoryTheory/Composition.scala" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/scala/categoryTheory/Ch2Types.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Category-Theory.md" beforeDir="false" afterPath="$PROJECT_DIR$/../Category-Theory.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/scala/categoryTheory/Composition.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/categoryTheory/Ch1Composition.scala" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -96,11 +99,20 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/scala/categoryTheory/Composition.scala">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/scala/categoryTheory/Ch1Composition.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="270">
-              <caret line="18" lean-forward="true" selection-start-line="18" selection-end-line="18" />
+            <state relative-caret-position="30">
+              <caret line="2" column="7" selection-start-line="2" selection-start-column="7" selection-end-line="2" selection-end-column="7" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/scala/categoryTheory/Ch2Types.scala">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="45">
+              <caret line="3" column="35" lean-forward="true" selection-start-line="3" selection-start-column="35" selection-end-line="3" selection-end-column="35" />
             </state>
           </provider>
         </entry>
@@ -155,10 +167,12 @@
         <option value="$PROJECT_DIR$/src/main/scala/Ch11CRDTAbstractKeyValue.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/KleisliTest.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/categoryTheory/Composition.scala" />
+        <option value="$PROJECT_DIR$/src/main/scala/categoryTheory/Ch1Composition.scala" />
+        <option value="$PROJECT_DIR$/src/main/scala/categoryTheory/Ch2Types.scala" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="y" value="23" />
     <option name="width" value="1440" />
     <option name="height" value="877" />
@@ -326,7 +340,7 @@
       </method>
     </configuration>
     <configuration name="Composition" type="Application" factoryName="Application" temporary="true">
-      <option name="MAIN_CLASS_NAME" value="categoryTheory.Composition" />
+      <option name="MAIN_CLASS_NAME" value="categoryTheory.Ch1Composition" />
       <module name="hello-world" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <extension name="coverage">
@@ -471,15 +485,15 @@
       <workItem from="1574072820694" duration="3416000" />
       <workItem from="1574241836133" duration="667000" />
       <workItem from="1574688411950" duration="1270000" />
-      <workItem from="1576066835503" duration="1206000" />
+      <workItem from="1576066835503" duration="2713000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="76657000" />
+    <option name="totallyTimeSpent" value="78164000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1440" height="877" extended-state="0" />
+    <frame x="0" y="23" width="1440" height="877" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.28612304" />
@@ -521,13 +535,6 @@
     <option name="version" value="1" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="jar://$USER_HOME$/.ivy2/cache/org.typelevel/cats-kernel_2.12/srcs/cats-kernel_2.12-1.6.0-sources.jar!/cats/kernel/Monoid.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="245">
-          <caret line="27" column="6" selection-start-line="27" selection-start-column="6" selection-end-line="27" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/scala/typeClasses.scala">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="15">
@@ -912,10 +919,17 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/scala/categoryTheory/Composition.scala">
+    <entry file="file://$PROJECT_DIR$/src/main/scala/categoryTheory/Ch1Composition.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="18" lean-forward="true" selection-start-line="18" selection-end-line="18" />
+        <state relative-caret-position="30">
+          <caret line="2" column="7" selection-start-line="2" selection-start-column="7" selection-end-line="2" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/categoryTheory/Ch2Types.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="45">
+          <caret line="3" column="35" lean-forward="true" selection-start-line="3" selection-start-column="35" selection-end-line="3" selection-end-column="35" />
         </state>
       </provider>
     </entry>
