@@ -65,3 +65,4 @@ https://youtu.be/m40YOZr1nxQ
 # Selective Functions
 Figure out which effects a program will have via the type system.
 https://youtu.be/gs7MNm6YMX4
+

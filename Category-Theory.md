@@ -11,7 +11,7 @@ g compose f
 
 `::` in Haskell means 'has the type of'
 ## Composition
-- Composition is associative
+Composition is associative
 ```scala
 val f : A =>B 
 val g: B =>C 
@@ -81,3 +81,17 @@ final case object False extends Bool
 ```
 This is an ADT, Bool can be either True or False.
 _Functions to Bool are called predicates_
+
+# Categories Great and Small
+## Detour - what is a graph?
+A graph is the set of values input->output of a function.
+```
+y = x * 2
+```
+Graph: 
+|Input|Output|
+|-|-|
+|0|0|
+|1|2|
+|2|4|
+This can also be plotted to a graph, therefore the name.
