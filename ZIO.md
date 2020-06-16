@@ -47,3 +47,43 @@ object PrintSequence extends App {
   }
 }
 ```
+
+
+```scala
+object ErrorRecovery extends App {
+  val StdInputFailed = 1
+
+  import zio.console._
+
+  val failed =
+    putStrLn("About to fail...") *>
+      ZIO.fail("Uh oh!") *> 
+      putStrLn("This will NEVER be printed!")
+
+
+  def run(args: List[String]): ZIO[ZEnv, Nothing, ExitCode] =
+    // We have type checking for Error handling here, the compiler will not allow a non-handled Error to go through, as the error Type here is Nothing, so we need to use orElse
+    (failed as ExitCode(0)) orElse ZIO.succeed(ExitCode(1))
+
+    //fold to handle, fail, success
+    failed.fold(_ => ExitCode(1), _ => ExitCode(2))
+
+
+    // Cause is a datatype to preserve stacktrace and error info. in this case Cause[String], because it fails with a String error
+    (failed as ExitCode(0)).catchAllCause(cause => putStrLn(cause.prettyPrint) as ExitCode(1))
+}
+```
+
+```scala
+object Looping extends App {
+  import zio.console._
+
+  // would not be possible with futures, is only possible because ZIO is completely lazy
+  def repeat[R, E, A](n: Int)(effect: ZIO[R, E, A]): ZIO[R, E, A] =
+    if (n <= 1) effect
+    else effect *> repeat(n - 1)(effect)
+
+  def run(args: List[String]): ZIO[ZEnv, Nothing, Int] =
+    repeat(3)(putStrLn("All work and no play makes Jack a dull boy")) as 0
+}
+```
